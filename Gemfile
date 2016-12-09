@@ -39,6 +39,7 @@ group :development, :test do
   # bring back 'assigns'
   gem 'rails-controller-testing'
 
+  gem 'factory_girl_rails'
 end
 
 group :development do
