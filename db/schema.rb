@@ -12,9 +12,6 @@
 
 ActiveRecord::Schema.define(version: 20161209195712) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "player_bases", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -38,8 +35,8 @@ ActiveRecord::Schema.define(version: 20161209195712) do
     t.integer  "tournament_team_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
-    t.index ["player_id"], name: "index_tournament_team_players_on_player_id", using: :btree
-    t.index ["tournament_team_id"], name: "index_tournament_team_players_on_tournament_team_id", using: :btree
+    t.index ["player_id"], name: "index_tournament_team_players_on_player_id"
+    t.index ["tournament_team_id"], name: "index_tournament_team_players_on_tournament_team_id"
   end
 
   create_table "tournament_teams", force: :cascade do |t|
@@ -47,12 +44,8 @@ ActiveRecord::Schema.define(version: 20161209195712) do
     t.integer  "tournament_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.index ["team_id"], name: "index_tournament_teams_on_team_id", using: :btree
-    t.index ["tournament_id"], name: "index_tournament_teams_on_tournament_id", using: :btree
+    t.index ["team_id"], name: "index_tournament_teams_on_team_id"
+    t.index ["tournament_id"], name: "index_tournament_teams_on_tournament_id"
   end
 
-  add_foreign_key "tournament_team_players", "player_bases", column: "player_id"
-  add_foreign_key "tournament_team_players", "tournament_teams"
-  add_foreign_key "tournament_teams", "team_bases", column: "team_id"
-  add_foreign_key "tournament_teams", "tournament_bases", column: "tournament_id"
 end

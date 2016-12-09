@@ -1,5 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe Tournament::Base, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "Validations" do
+    it { should validate_presence_of(:name) }
+  end
+
+  describe "Relationships" do
+    it { should have_many(:tournament_teams)
+                 .class_name('Tournament::Team')
+                 .with_foreign_key(:tournament_id) }
+
+    it { should have_many(:teams)
+                 .through(:tournament_teams)
+                 .class_name('Team::Base')
+                 .source(:team) }
+  end
+
+  describe "Create" do
+    it "should create a valid Tournament" do
+      tournament = FactoryGirl.create(:tournament_basis)
+      expect(tournament).to be_valid
+      expect(tournament).to be_persisted
+    end
+  end
 end

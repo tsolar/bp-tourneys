@@ -3,5 +3,17 @@ class Tournament::Team < ApplicationRecord
              class_name: "Team::Base",
              foreign_key: :team_id
   belongs_to :tournament,
-             class_name: "Tournament::Base"
+             class_name: "Tournament::Base",
+             foreign_key: :tournament_id
+
+  has_many :team_players,
+           class_name: 'Tournament::TeamPlayer',
+           foreign_key: :tournament_team_id
+
+
+  validates :team, presence: true
+  validates :tournament, presence: true
+
+  # One team per tournament!
+  validates :team_id, uniqueness: { scope: :tournament_id }
 end

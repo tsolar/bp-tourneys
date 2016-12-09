@@ -48,6 +48,7 @@ group :development, :test do
   gem 'rails-controller-testing'
 
   gem 'factory_girl_rails'
+  gem 'ffaker'
 end
 
 group :test do

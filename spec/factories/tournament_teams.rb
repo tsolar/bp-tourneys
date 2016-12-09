@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :tournament_team, class: 'Tournament::Team' do
-    team nil
-    tournament nil
+    team { Team::Base.last || FactoryGirl.create(:team_basis) }
+    tournament { Tournament::Base.last || FactoryGirl.create(:tournament_basis) }
   end
 end
