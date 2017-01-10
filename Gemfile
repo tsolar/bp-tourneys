@@ -38,6 +38,9 @@ gem 'jbuilder', '~> 2.5'
 # https://stackoverflow.com/questions/40986923/meaning-of-expected-string-default-value-for-on-ruby-on-rails
 gem 'thor', '0.19.1'
 
+# Use slim to generate views
+gem "slim-rails"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

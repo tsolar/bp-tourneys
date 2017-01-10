@@ -1,0 +1,9 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @tournament_basis.name
+
+= link_to 'Edit', edit_tournament_basis_path(@tournament_basis)
+'|
+= link_to 'Back', tournament_bases_path

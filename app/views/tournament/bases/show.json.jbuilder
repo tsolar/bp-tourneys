@@ -1,0 +1,1 @@
+json.partial! "tournament_bases/tournament_basis", tournament_basis: @tournament_basis
