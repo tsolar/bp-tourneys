@@ -39,6 +39,13 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (7.1.4)
+    autoprefixer-rails (6.6.1)
+      execjs
+    bootstrap-generators (3.3.4)
+      railties (>= 3.1.0)
+    bootstrap-sass (3.3.7)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     builder (3.2.2)
     byebug (9.0.6)
     concurrent-ruby (1.0.4)
@@ -106,6 +113,7 @@ GEM
       nokogiri (~> 1.6)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails_layout (1.0.34)
     railties (5.0.1)
       actionpack (= 5.0.1)
       activesupport (= 5.0.1)
@@ -185,6 +193,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-generators (~> 3.3.4)
+  bootstrap-sass (~> 3.3.6)
   byebug
   factory_girl_rails
   ffaker
@@ -195,6 +205,7 @@ DEPENDENCIES
   puma (~> 3.0)
   rails (~> 5.0.0, >= 5.0.0.1)
   rails-controller-testing
+  rails_layout
   rspec-rails (~> 3.5)
   sass-rails (~> 5.0)
   shoulda-matchers (~> 3.1)

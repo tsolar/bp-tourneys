@@ -41,6 +41,9 @@ gem 'thor', '0.19.1'
 # Use slim to generate views
 gem "slim-rails"
 
+# Use Twitter Bootstrap!
+gem 'bootstrap-sass', '~> 3.3.6'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
@@ -52,6 +55,12 @@ group :development, :test do
 
   gem 'factory_girl_rails'
   gem 'ffaker'
+
+  # lets generate some layouts with bootstrap...
+  gem 'rails_layout'
+
+  # lets generate scaffolds with bootstrap
+  gem 'bootstrap-generators', '~> 3.3.4'
 end
 
 group :test do
