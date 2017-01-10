@@ -1,12 +1,12 @@
 .page-header
-  = link_to tournament_bases_path, class: 'btn btn-default' do
+  = link_to team_bases_path, class: 'btn btn-default' do
     span.glyphicon.glyphicon-list-alt
     |  Back 
-  = link_to @tournament_basis, class: 'btn btn-primary' do
+  = link_to @team_basis, class: 'btn btn-primary' do
     span.glyphicon.glyphicon-info-sign
     |  Show 
   h1
     | Editing 
-    | tournament_basis
+    | team_basis
 
 = render 'form'

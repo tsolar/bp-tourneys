@@ -1,21 +1,27 @@
-h1 Listing tournament_bases
+.page-header
+  = link_to new_tournament_basis_path, class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New Base
+  h1
+    | Listing tournament_bases
 
-table
-  thead
-    tr
-      th Name
-      th
-      th
-      th
-
-  tbody
-    - @tournament_bases.each do |tournament_basis|
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
       tr
-        td = tournament_basis.name
-        td = link_to 'Show', tournament_basis
-        td = link_to 'Edit', edit_tournament_basis_path(tournament_basis)
-        td = link_to 'Destroy', tournament_basis, data: { confirm: 'Are you sure?' }, method: :delete
-
-br
-
-= link_to 'New Base', new_tournament_basis_path
+        th
+          | Name
+        th
+        th
+        th
+    tbody
+      - @tournament_bases.each do | tournament_basis |
+        tr
+          td
+            = tournament_basis.name
+          td
+            = link_to 'Show', tournament_basis
+          td
+            = link_to 'Edit', edit_tournament_basis_path(tournament_basis) 
+          td
+            = link_to 'Destroy', tournament_basis, method: :delete, data: { confirm: 'Are you sure?' } 

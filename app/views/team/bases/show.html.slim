@@ -1,0 +1,14 @@
+.page-header
+  = link_to team_bases_path, class: 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_team_basis_path(@team_basis), class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show team_basis
+dl.dl-horizontal
+  dt
+    | Name:
+  dd
+    = @team_basis.name

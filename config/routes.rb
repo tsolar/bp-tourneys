@@ -7,4 +7,8 @@ Rails.application.routes.draw do
     resources :bases
   end
 
+  namespace :team do
+    resources :bases
+  end
+
 end
