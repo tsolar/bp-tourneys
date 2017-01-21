@@ -1,0 +1,26 @@
+.page-header
+  = link_to new_tournament_team_path, class: 'btn btn-primary' do
+    span.glyphicon.glyphicon-plus
+    |  New Team
+  h1
+    | Listing tournament_teams
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th Tournament team name
+        th
+        th
+        th
+    tbody
+      - @tournament_teams.each do | tournament_team |
+        tr
+          td
+            = tournament_team.team.name
+          td
+            = link_to 'Show', tournament_team_path(tournament_id: @tournament.to_param, team_id: tournament_team.team.to_param)
+          td
+            = link_to 'Edit', edit_tournament_team_path(tournament_id: tournament_team.tournament.to_param, team_id: tournament_team.team.to_param)
+          td
+            = link_to 'Destroy', tournament_team_path(tournament_id: @tournament.to_param, team_id: tournament_team.team.to_param), method: :delete, data: { confirm: 'Are you sure?' }

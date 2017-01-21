@@ -18,6 +18,8 @@ class Tournament::Team < ApplicationRecord
   validates :team, presence: true
   validates :tournament, presence: true
 
+  delegate :name, to: :team, prefix: true
+
   # One team per tournament!
   validates :team_id, uniqueness: { scope: :tournament_id }
 end

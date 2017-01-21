@@ -1,0 +1,12 @@
+.page-header
+  = link_to tournament_teams_path, class: 'btn btn-default' do
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to @tournament_team, class: 'btn btn-primary' do
+    span.glyphicon.glyphicon-info-sign
+    |  Show 
+  h1
+    | Editing 
+    | tournament_team
+
+= render 'form'

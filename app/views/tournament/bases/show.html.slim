@@ -1,10 +1,10 @@
 .page-header
-  = link_to tournament_bases_path, class: 'btn btn-default' do 
+  = link_to tournament_bases_path, class: 'btn btn-default' do
     span.glyphicon.glyphicon-list-alt
-    |  Back 
-  = link_to edit_tournament_basis_path(@tournament_basis), class: 'btn btn-primary' do 
+    |  Back
+  = link_to edit_tournament_basis_path(@tournament_basis), class: 'btn btn-primary' do
     span.glyphicon.glyphicon-pencil
-    |  Edit 
+    |  Edit
   h1
     | Show tournament_basis
 dl.dl-horizontal
@@ -12,3 +12,12 @@ dl.dl-horizontal
     | Name:
   dd
     = @tournament_basis.name
+  dt
+    | Teams:
+  dd
+    - if @tournament_basis.teams.any?
+      ul
+      - @tournament_basis.teams.each do |team|
+        li = link_to team.name, team_basis_path(team)
+    - else
+      | No teams yet!

@@ -1,0 +1,15 @@
+.page-header
+  = link_to tournament_teams_path, class: 'btn btn-default' do
+    span.glyphicon.glyphicon-list-alt
+    |  Back
+  = link_to edit_tournament_team_path(@tournament_team), class: 'btn btn-primary' do
+    span.glyphicon.glyphicon-pencil
+    |  Edit
+  h1
+    | Show tournament_team
+dl.dl-horizontal
+  dt
+    | Players
+  dd
+    - @tournament_team.players.each do |player|
+      = player.name

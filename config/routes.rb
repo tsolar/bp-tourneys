@@ -3,8 +3,13 @@ Rails.application.routes.draw do
 
   root to: 'tournament/bases#index'
 
+  resources :tournaments, controller: "tournament/bases" do
+    resources :teams, param: :team_id, controller: "tournament/teams"
+  end
+
   namespace :tournament do
     resources :bases
+    # resources :teams
   end
 
   namespace :team do

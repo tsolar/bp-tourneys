@@ -4,9 +4,16 @@ RSpec.describe Tournament::Team, type: :model do
   describe "Validations" do
     it { should validate_presence_of(:team) }
     it { should validate_presence_of(:tournament) }
-    it { should validate_uniqueness_of(:team_id).scoped_to(:tournament_id) }
+    it {
+      FactoryGirl.create(:tournament_team)
+      should validate_uniqueness_of(:team_id).scoped_to(:tournament_id)
+    }
 
-    it 'should have only 3 players!'
+    it 'should have only 3 players!' # what about squad?
+  end
+
+  describe "Delegates" do
+    it { should delegate_method(:name).to(:team).with_prefix(true) }
   end
 
   describe "Relationships" do
