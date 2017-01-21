@@ -69,6 +69,6 @@ class Team::BasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def team_basis_params
-      params.require(:team_basis).permit(:name)
+      params.require(:team_base).permit(:name)
     end
 end

@@ -21,5 +21,10 @@ RSpec.describe Tournament::Team, type: :model do
     it { should have_many(:team_players)
                   .class_name('Tournament::TeamPlayer')
                   .with_foreign_key(:tournament_team_id) }
+
+    it { should have_many(:players)
+                 .through(:team_players)
+                 .class_name('Player::Base')
+                 .source(:player) }
   end
 end

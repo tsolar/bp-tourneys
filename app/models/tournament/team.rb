@@ -10,6 +10,10 @@ class Tournament::Team < ApplicationRecord
            class_name: 'Tournament::TeamPlayer',
            foreign_key: :tournament_team_id
 
+  has_many :players,
+           class_name: 'Player::Base',
+           through: :team_players,
+           source: :player
 
   validates :team, presence: true
   validates :tournament, presence: true

@@ -6,4 +6,7 @@ class Tournament::TeamPlayer < ApplicationRecord
 
   validates :player, presence: true
   validates :tournament_team, presence: true
+
+  # A player can be only once in a team per tournament
+  validates :player_id, uniqueness: { scope: [:tournament_team_id] }
 end
