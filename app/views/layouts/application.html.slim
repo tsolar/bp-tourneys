@@ -45,6 +45,10 @@ html
             span.sr-only
               | Close
           = msg
+      / this is devise stuff. Should verify how it is shown and change it.
+      / p.notice = notice
+      / p.alert = alert
+
       = yield
 
   = javascript_include_tag 'application', 'data-turbolinks-track' => true
