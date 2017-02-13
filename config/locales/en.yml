@@ -21,3 +21,11 @@
 
 en:
   hello: "Hello world"
+
+  user:
+    sign_in: "Sign in"
+    sign_out: "Sign out"
+    sign_up: "Sign up"
+    my_profile: "My profile"
+    my_teams: "My teams"
+    my_tournaments: "My tournaments"
