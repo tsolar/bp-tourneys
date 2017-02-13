@@ -8,5 +8,11 @@ class Team::Base < ApplicationRecord
            through: :tournament_teams,
            source: :tournament
 
+  belongs_to :owner,
+             optional: true,
+             class_name: 'User',
+             foreign_key: :owner_id,
+             inverse_of: :teams
+
   validates :name, presence: true
 end

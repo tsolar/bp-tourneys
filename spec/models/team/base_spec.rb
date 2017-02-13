@@ -14,6 +14,11 @@ RSpec.describe Team::Base, type: :model do
                  .through(:tournament_teams)
                  .class_name('Tournament::Base')
                  .source(:tournament) }
+
+    it { should belong_to(:owner)
+                  .class_name('User')
+                  .with_foreign_key(:owner_id)
+                  .inverse_of(:teams) }
   end
 
   describe "Create" do
