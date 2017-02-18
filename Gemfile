@@ -35,7 +35,7 @@ gem 'jbuilder', '~> 2.5'
 
 # fix warning --jbuilder
 # https://stackoverflow.com/questions/40986923/meaning-of-expected-string-default-value-for-on-ruby-on-rails
-gem 'thor', '0.19.1'
+#gem 'thor', '0.19.1'
 
 # Use slim to generate views
 gem "slim-rails"
