@@ -19,5 +19,11 @@ Rails.application.routes.draw do
   end
 
   get 'my_profile', controller: "my_profile", action: "index", as: :user_profile
+  resource :my_profile, except: [:new, :index], controller: "my_profile"
 
+  namespace :user do
+    resources :teams
+    resources :tournaments
+    resource :profile
+  end
 end

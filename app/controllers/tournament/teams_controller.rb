@@ -1,5 +1,5 @@
 class Tournament::TeamsController < ApplicationController
-  before_action :set_tournament, only: [:index, :show, :edit, :update, :destroy]
+  before_action :set_tournament, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   before_action :set_team, only: [:show, :edit, :update, :destroy]
   before_action :set_tournament_team, only: [:show, :edit, :update, :destroy]
 
@@ -18,7 +18,7 @@ class Tournament::TeamsController < ApplicationController
 
   # GET /tournament/teams/new
   def new
-    @tournament_team = Tournament::Team.new
+    @tournament_team = @tournament.tournament_teams.new
   end
 
   # GET /tournament/teams/1/edit
@@ -28,7 +28,7 @@ class Tournament::TeamsController < ApplicationController
   # POST /tournament/teams
   # POST /tournament/teams.json
   def create
-    @tournament_team = Tournament::Team.new(tournament_team_params)
+    @tournament_team = @tournament.tournament_teams.new(tournament_team_params)
 
     respond_to do |format|
       if @tournament_team.save
@@ -46,7 +46,10 @@ class Tournament::TeamsController < ApplicationController
   def update
     respond_to do |format|
       if @tournament_team.update(tournament_team_params)
-        format.html { redirect_to @tournament_team, notice: 'Team was successfully updated.' }
+        format.html {
+          # redirect_to @tournament_team, notice: 'Team was successfully updated.'
+          redirect_to tournament_teams_path, notice: 'Team was successfully updated.'
+        }
         format.json { render :show, status: :ok, location: @tournament_team }
       else
         format.html { render :edit }
@@ -84,6 +87,9 @@ class Tournament::TeamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tournament_team_params
-      params.fetch(:tournament_team, {})
+      params.require(:tournament_team).permit(
+        :team_id,
+        player_ids: []
+      )
     end
 end

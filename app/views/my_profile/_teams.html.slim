@@ -1,0 +1,30 @@
+.teams
+  h2
+    | Teams
+  - if current_user.teams.any?
+    ul.teams
+    - current_user.teams.each do |team|
+      li.team
+        = team.name
+        - if team.tournaments.any?
+          p
+            | Torneos
+          ul.team-tournaments
+            - team.tournaments.each do |tournament|
+              li = tournament.name
+        - else
+          p
+            | Not present in any tournament
+  - else
+    | You have no teams yet.
+    = link_to "Wanna create one?", "/my_teams"
+
+= simple_form_for current_user, url: my_profile_path do |f|
+  h3
+    | Teams
+  #teams
+    = f.simple_fields_for :teams do |team|
+      = render 'team_fields', f: team
+    .links
+      = link_to_add_association 'add team', f, :teams
+  = f.submit

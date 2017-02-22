@@ -18,6 +18,8 @@ html
     = render partial: 'common/main_navbar'
     .container
       - flash.each do |name, msg|
+        p
+          = "------------>>> name: #{name}, msg: #{msg} <<<<--------------"
         = content_tag :div, class: "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", role: "alert" do
           button.close type="button" data-dismiss="alert"
             span aria-hidden="true"

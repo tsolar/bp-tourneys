@@ -11,5 +11,6 @@ dl.dl-horizontal
   dt
     | Players
   dd
-    - @tournament_team.players.each do |player|
-      = player.name
+    ul
+      - @tournament_team.players.each do |player|
+        li = link_to "#{player.name} (#{player.id})", "player/#{player.id}"
