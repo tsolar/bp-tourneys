@@ -10,6 +10,26 @@ RSpec.describe Tournament::Team, type: :model do
     }
 
     it 'should have only 3 players!' # what about squad?
+
+    context "when a player already is in a tournament team" do
+      it 'validates the player cannot be in another team in the same tournament' do
+        tournament = FactoryGirl.create :tournament_basis
+        tournament_team = FactoryGirl.create(:tournament_team, tournament: tournament)
+        players_count = 3
+        players = FactoryGirl.create_list(:player_basis, players_count)
+        expect {
+          tournament_team.players << players
+        }.to change(Tournament::TeamPlayer, :count).by(players_count)
+
+        other_tournament_team = FactoryGirl.create(:tournament_team, tournament: tournament)
+        expect(other_tournament_team.tournament).to eq tournament_team.tournament
+        expect {
+          other_tournament_team.players << players.first
+        }.to change(Tournament::TeamPlayer, :count).by(0)
+
+      end
+    end
+
   end
 
   describe "Delegates" do

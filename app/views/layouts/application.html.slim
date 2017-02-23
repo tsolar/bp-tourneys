@@ -7,7 +7,7 @@ html
     meta name="description" content=""
     meta name="author" content=""
     title
-      | Starter Template for Bootstrap
+      | Bikepolo Tourneys
     /! HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
     /[if lt IE 9]
       = javascript_include_tag "https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js", "https://oss.maxcdn.com/respond/1.4.2/respond.min.js"
@@ -20,13 +20,14 @@ html
       - flash.each do |name, msg|
         p
           = "------------>>> name: #{name}, msg: #{msg} <<<<--------------"
-        = content_tag :div, class: "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", role: "alert" do
-          button.close type="button" data-dismiss="alert"
-            span aria-hidden="true"
-              | &times;
-            span.sr-only
-              | Close
-          = msg
+        - if name != 'timedout'
+          = content_tag :div, class: "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", role: "alert" do
+            button.close type="button" data-dismiss="alert"
+              span aria-hidden="true"
+                | &times;
+              span.sr-only
+                | Close
+            = msg
       / this is devise stuff. Should verify how it is shown and change it.
       / p.notice = notice
       / p.alert = alert

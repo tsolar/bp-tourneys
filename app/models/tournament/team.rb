@@ -1,3 +1,4 @@
+# coding: utf-8
 class Tournament::Team < ApplicationRecord
   belongs_to :team,
              class_name: "Team::Base",
@@ -9,6 +10,7 @@ class Tournament::Team < ApplicationRecord
   has_many :team_players,
            class_name: 'Tournament::TeamPlayer',
            foreign_key: :tournament_team_id
+  # validates_associated :team_players
 
   has_many :players,
            class_name: 'Player::Base',
@@ -22,4 +24,5 @@ class Tournament::Team < ApplicationRecord
 
   # One team per tournament!
   validates :team_id, uniqueness: { scope: :tournament_id }
+
 end
