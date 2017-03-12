@@ -14,7 +14,10 @@ RSpec.describe Tournament::Team, type: :model do
     context "when a player already is in a tournament team" do
       it 'validates the player cannot be in another team in the same tournament' do
         tournament = FactoryGirl.create :tournament_basis
-        tournament_team = FactoryGirl.create(:tournament_team, tournament: tournament)
+        tournament_team = FactoryGirl.create(
+          :tournament_team,
+          tournament: tournament
+        )
         players_count = 3
         players = FactoryGirl.create_list(:player_basis, players_count)
         expect {
@@ -24,12 +27,12 @@ RSpec.describe Tournament::Team, type: :model do
         other_tournament_team = FactoryGirl.create(:tournament_team, tournament: tournament)
         expect(other_tournament_team.tournament).to eq tournament_team.tournament
         expect {
+          debugger
           other_tournament_team.players << players.first
-        }.to change(Tournament::TeamPlayer, :count).by(0)
-
+        }.to raise_error(ActiveRecord::RecordInvalid).and \
+          change(Tournament::TeamPlayer, :count).by(0)
       end
     end
-
   end
 
   describe "Delegates" do
@@ -37,21 +40,29 @@ RSpec.describe Tournament::Team, type: :model do
   end
 
   describe "Relationships" do
-    it { should belong_to(:team)
-                 .class_name('Team::Base')
-                 .with_foreign_key(:team_id) }
+    it {
+      should belong_to(:team)
+        .class_name('Team::Base')
+        .with_foreign_key(:team_id)
+    }
 
-    it { should belong_to(:tournament)
-                 .class_name('Tournament::Base')
-                 .with_foreign_key(:tournament_id) }
+    it {
+      should belong_to(:tournament)
+        .class_name('Tournament::Base')
+        .with_foreign_key(:tournament_id)
+    }
 
-    it { should have_many(:team_players)
-                  .class_name('Tournament::TeamPlayer')
-                  .with_foreign_key(:tournament_team_id) }
+    it {
+      should have_many(:team_players)
+        .class_name('Tournament::TeamPlayer')
+        .with_foreign_key(:tournament_team_id)
+    }
 
-    it { should have_many(:players)
-                 .through(:team_players)
-                 .class_name('Player::Base')
-                 .source(:player) }
+    it {
+      should have_many(:players)
+        .through(:team_players)
+        .class_name('Player::Base')
+        .source(:player)
+    }
   end
 end

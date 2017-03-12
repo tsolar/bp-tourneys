@@ -37,10 +37,12 @@ ActiveRecord::Schema.define(version: 20170213040801) do
 
   create_table "tournament_team_players", force: :cascade do |t|
     t.integer  "player_id"
+    t.integer  "tournament_id"
     t.integer  "tournament_team_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.index ["player_id"], name: "index_tournament_team_players_on_player_id", using: :btree
+    t.index ["tournament_id"], name: "index_tournament_team_players_on_tournament_id", using: :btree
     t.index ["tournament_team_id"], name: "index_tournament_team_players_on_tournament_team_id", using: :btree
   end
 
@@ -81,6 +83,7 @@ ActiveRecord::Schema.define(version: 20170213040801) do
 
   add_foreign_key "team_bases", "users", column: "owner_id"
   add_foreign_key "tournament_team_players", "player_bases", column: "player_id"
+  add_foreign_key "tournament_team_players", "tournament_bases", column: "tournament_id"
   add_foreign_key "tournament_team_players", "tournament_teams"
   add_foreign_key "tournament_teams", "team_bases", column: "team_id"
   add_foreign_key "tournament_teams", "tournament_bases", column: "tournament_id"
