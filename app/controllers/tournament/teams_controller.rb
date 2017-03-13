@@ -78,11 +78,21 @@ class Tournament::TeamsController < ApplicationController
     end
 
     def set_tournament
-      @tournament = Tournament::Base.find(params[:tournament_id])
+      begin
+        @tournament = Tournament::Base.find(params[:tournament_id])
+      rescue Exception => e
+        # render 'errors/404', status: 404, layout: 'application'
+        render file: 'public/404', status: 404, layout: 'application'
+      end
     end
 
     def set_team
-      @team = Team::Base.find(params[:team_id])
+      begin
+        @team = Team::Base.find(params[:team_id])
+      rescue Exception => e
+        # render 'errors/404', status: 404, layout: 'application'
+        render file: 'public/404', status: 404, layout: :application
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

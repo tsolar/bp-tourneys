@@ -27,7 +27,6 @@ RSpec.describe Tournament::Team, type: :model do
         other_tournament_team = FactoryGirl.create(:tournament_team, tournament: tournament)
         expect(other_tournament_team.tournament).to eq tournament_team.tournament
         expect {
-          debugger
           other_tournament_team.players << players.first
         }.to raise_error(ActiveRecord::RecordInvalid).and \
           change(Tournament::TeamPlayer, :count).by(0)
