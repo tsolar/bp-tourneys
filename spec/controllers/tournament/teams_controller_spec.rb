@@ -54,7 +54,8 @@ RSpec.describe Tournament::TeamsController, type: :controller do
 
   describe "GET #new" do
     it "assigns a new tournament_team as @tournament_team" do
-      get :new, params: {}, session: valid_session
+      tournament = FactoryGirl.create(:tournament_basis)
+      get :new, params: {tournament_id: tournament.to_param}, session: valid_session
       expect(assigns(:tournament_team)).to be_a_new(Tournament::Team)
     end
   end

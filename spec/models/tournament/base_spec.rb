@@ -22,5 +22,11 @@ RSpec.describe Tournament::Base, type: :model do
       expect(tournament).to be_valid
       expect(tournament).to be_persisted
     end
+
+    it "should not create an invalid Tournament" do
+      tournament = FactoryGirl.build(:tournament_basis_invalid)
+      expect(tournament).not_to be_valid
+      expect(tournament.save).to be false
+    end
   end
 end

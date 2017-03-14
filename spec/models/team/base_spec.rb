@@ -27,5 +27,12 @@ RSpec.describe Team::Base, type: :model do
       expect(team).to be_valid
       expect(team).to be_persisted
     end
+
+    it "should not create an invalid Team" do
+      team = FactoryGirl.build(:team_basis_invalid)
+      expect(team).not_to be_valid
+      expect(team.save).to be false
+    end
+
   end
 end

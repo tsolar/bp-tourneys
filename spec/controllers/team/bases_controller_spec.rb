@@ -24,11 +24,11 @@ RSpec.describe Team::BasesController, type: :controller do
   # Team::Base. As you add validations to Team::Base, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryGirl.attributes_for(:team_basis)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryGirl.attributes_for(:team_basis_invalid)
   }
 
   # This should return the minimal set of values that should be in the session
@@ -48,14 +48,14 @@ RSpec.describe Team::BasesController, type: :controller do
     it "assigns the requested team_base as @team_base" do
       base = Team::Base.create! valid_attributes
       get :show, params: {id: base.to_param}, session: valid_session
-      expect(assigns(:team_base)).to eq(base)
+      expect(assigns(:team_basis)).to eq(base)
     end
   end
 
   describe "GET #new" do
     it "assigns a new team_base as @team_base" do
       get :new, params: {}, session: valid_session
-      expect(assigns(:team_base)).to be_a_new(Team::Base)
+      expect(assigns(:team_basis)).to be_a_new(Team::Base)
     end
   end
 
@@ -63,7 +63,7 @@ RSpec.describe Team::BasesController, type: :controller do
     it "assigns the requested team_base as @team_base" do
       base = Team::Base.create! valid_attributes
       get :edit, params: {id: base.to_param}, session: valid_session
-      expect(assigns(:team_base)).to eq(base)
+      expect(assigns(:team_basis)).to eq(base)
     end
   end
 
@@ -77,8 +77,8 @@ RSpec.describe Team::BasesController, type: :controller do
 
       it "assigns a newly created team_base as @team_base" do
         post :create, params: {team_base: valid_attributes}, session: valid_session
-        expect(assigns(:team_base)).to be_a(Team::Base)
-        expect(assigns(:team_base)).to be_persisted
+        expect(assigns(:team_basis)).to be_a(Team::Base)
+        expect(assigns(:team_basis)).to be_persisted
       end
 
       it "redirects to the created team_base" do
@@ -90,7 +90,7 @@ RSpec.describe Team::BasesController, type: :controller do
     context "with invalid params" do
       it "assigns a newly created but unsaved team_base as @team_base" do
         post :create, params: {team_base: invalid_attributes}, session: valid_session
-        expect(assigns(:team_base)).to be_a_new(Team::Base)
+        expect(assigns(:team_basis)).to be_a_new(Team::Base)
       end
 
       it "re-renders the 'new' template" do
@@ -103,20 +103,20 @@ RSpec.describe Team::BasesController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        FactoryGirl.attributes_for(:team_basis)
       }
 
       it "updates the requested team_base" do
         base = Team::Base.create! valid_attributes
         put :update, params: {id: base.to_param, team_base: new_attributes}, session: valid_session
         base.reload
-        skip("Add assertions for updated state")
+        expect(base.name).to eq new_attributes[:name]
       end
 
       it "assigns the requested team_base as @team_base" do
         base = Team::Base.create! valid_attributes
         put :update, params: {id: base.to_param, team_base: valid_attributes}, session: valid_session
-        expect(assigns(:team_base)).to eq(base)
+        expect(assigns(:team_basis)).to eq(base)
       end
 
       it "redirects to the team_base" do
@@ -130,7 +130,7 @@ RSpec.describe Team::BasesController, type: :controller do
       it "assigns the team_base as @team_base" do
         base = Team::Base.create! valid_attributes
         put :update, params: {id: base.to_param, team_base: invalid_attributes}, session: valid_session
-        expect(assigns(:team_base)).to eq(base)
+        expect(assigns(:team_basis)).to eq(base)
       end
 
       it "re-renders the 'edit' template" do
