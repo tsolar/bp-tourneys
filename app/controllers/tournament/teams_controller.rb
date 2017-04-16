@@ -32,7 +32,13 @@ class Tournament::TeamsController < ApplicationController
 
     respond_to do |format|
       if @tournament_team.save
-        format.html { redirect_to @tournament_team, notice: 'Team was successfully created.' }
+        format.html {
+          redirect_to tournament_team_path(
+            tournament: @tournament_team.tournament,
+            team: @tournament_team.team
+          ),
+          notice: 'Team was successfully created.'
+        }
         format.json { render :show, status: :created, location: @tournament_team }
       else
         format.html { render :new }
@@ -48,7 +54,7 @@ class Tournament::TeamsController < ApplicationController
       if @tournament_team.update(tournament_team_params)
         format.html {
           # redirect_to @tournament_team, notice: 'Team was successfully updated.'
-          redirect_to tournament_teams_path, notice: 'Team was successfully updated.'
+          redirect_to tournament_teams_path(@tournament), notice: 'Team was successfully updated.'
         }
         format.json { render :show, status: :ok, location: @tournament_team }
       else
@@ -99,6 +105,11 @@ class Tournament::TeamsController < ApplicationController
     def tournament_team_params
       params.require(:tournament_team).permit(
         :team_id,
+        team_players_attributes: [
+          :id,
+          :player_id,
+          :_destroy
+        ],
         player_ids: []
       )
     end

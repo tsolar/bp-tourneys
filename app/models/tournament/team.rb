@@ -9,7 +9,8 @@ class Tournament::Team < ApplicationRecord
 
   has_many :team_players,
            class_name: 'Tournament::TeamPlayer',
-           foreign_key: :tournament_team_id
+           foreign_key: :tournament_team_id,
+           inverse_of: :tournament_team
 
   has_many :players,
            class_name: 'Player::Base',
@@ -24,4 +25,5 @@ class Tournament::Team < ApplicationRecord
   # One team per tournament!
   validates :team_id, uniqueness: { scope: :tournament_id }
 
+  accepts_nested_attributes_for :team_players, allow_destroy: true
 end

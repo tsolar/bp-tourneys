@@ -1,4 +1,8 @@
-= simple_form_for(@tournament_team, url: tournament_team_path(@tournament, @team), html: { class: "form-horizontal", role: "form" }) do |f|
+- if @tournament_team.new_record?
+  - url = tournament_teams_path(@tournament)
+- else
+  - url = tournament_team_path(@tournament, @team)
+= simple_form_for(@tournament_team, url: url, html: { class: "form-horizontal", role: "form" }) do |f|
   - if @tournament_team.errors.any?
     .alert.alert-danger.alert-dismissable role="alert"
       button.close type="button" data-dismiss="alert"
@@ -11,10 +15,10 @@
         - @tournament_team.errors.full_messages.each do |msg|
           li= msg
   = f.association :team
-  = f.association :players
-  /= f.simple_fields_for :team_players do |team_player|
+  /= f.association :players
+  = f.simple_fields_for :team_players do |team_player|
     = render 'team_player_fields', f: team_player
-  /.links
+  .links
     = link_to_add_association 'add team player', f, :team_players
   .form-group
     .col-sm-offset-2.col-sm-10
