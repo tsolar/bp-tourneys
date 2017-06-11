@@ -34,9 +34,9 @@ class Tournament::TeamsController < ApplicationController
       if @tournament_team.save
         format.html {
           redirect_to tournament_team_path(
-            tournament: @tournament_team.tournament,
-            team: @tournament_team.team
+            team_id: @tournament_team.team.to_param
           ),
+
           notice: 'Team was successfully created.'
         }
         format.json { render :show, status: :created, location: @tournament_team }

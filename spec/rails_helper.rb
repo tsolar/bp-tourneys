@@ -60,7 +60,6 @@ RSpec.configure do |config|
   # should this be moved to spec/support/devise.rb ?
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
-  config.include Devise::TestHelpers, :type => :controller
 
   config.extend ControllerMacros, :type => :controller
 end

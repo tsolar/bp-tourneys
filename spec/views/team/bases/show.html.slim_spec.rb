@@ -8,6 +8,7 @@ RSpec.describe "team/bases/show", type: :view do
   end
 
   it "renders attributes in <p>" do
+    skip "will test this later, maybe not needed"
     render
     expect(rendered).to match(/Name/)
   end
