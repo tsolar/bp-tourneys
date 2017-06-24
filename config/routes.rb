@@ -9,10 +9,10 @@ Rails.application.routes.draw do
     resources :teams, param: :team_id, controller: "tournament/teams"
   end
 
-  namespace :tournament do
-    resources :bases
-    # resources :teams
-  end
+  # namespace :tournament do
+  #   resources :bases
+  #   # resources :teams
+  # end
 
   namespace :team do
     resources :bases

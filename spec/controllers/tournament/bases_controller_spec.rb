@@ -83,7 +83,7 @@ RSpec.describe Tournament::BasesController, type: :controller do
 
       it "redirects to the created tournament_base" do
         post :create, params: {tournament_base: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Tournament::Base.last)
+        expect(response).to redirect_to(tournament_path(Tournament::Base.last))
       end
     end
 
@@ -122,7 +122,7 @@ RSpec.describe Tournament::BasesController, type: :controller do
       it "redirects to the tournament_base" do
         base = Tournament::Base.create! valid_attributes
         put :update, params: {id: base.to_param, tournament_base: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(base)
+        expect(response).to redirect_to(tournament_path(base))
       end
     end
 
@@ -152,7 +152,7 @@ RSpec.describe Tournament::BasesController, type: :controller do
     it "redirects to the tournament_bases list" do
       base = Tournament::Base.create! valid_attributes
       delete :destroy, params: {id: base.to_param}, session: valid_session
-      expect(response).to redirect_to(tournament_bases_url)
+      expect(response).to redirect_to(tournaments_url)
     end
   end
 

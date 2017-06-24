@@ -11,7 +11,7 @@ RSpec.describe "tournament/bases/new", type: :view do
     skip "will test this later, maybe not needed"
     render
 
-    assert_select "form[action=?][method=?]", tournament_bases_path, "post" do
+    assert_select "form[action=?][method=?]", tournaments_path, "post" do
 
       assert_select "input#tournament_base_name[name=?]", "tournament_base[name]"
     end

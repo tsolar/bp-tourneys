@@ -1,12 +1,12 @@
 .page-header
-  = link_to tournament_bases_path, class: 'btn btn-default' do
+  = link_to tournaments_path, class: 'btn btn-default' do
     span.glyphicon.glyphicon-list-alt
-    |  Back 
-  = link_to @tournament_basis, class: 'btn btn-primary' do
+    |  Back
+  = link_to tournament_path(@tournament_basis), class: 'btn btn-primary' do
     span.glyphicon.glyphicon-info-sign
-    |  Show 
+    |  Show
   h1
-    | Editing 
+    | Editing
     | tournament_basis
 
-= render 'form'
+= render partial: 'form', locals: { action_url: tournament_path(@tournament_basis) }

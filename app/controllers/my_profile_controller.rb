@@ -1,7 +1,7 @@
 class MyProfileController < ApplicationController
   before_action :authenticate_user!
 
-  def index
+  def show
   end
 
   def update
