@@ -64,4 +64,31 @@ RSpec.describe Tournament::Team, type: :model do
         .source(:player)
     }
   end
+
+  describe "Deletion" do
+    let!(:tournament_team) { FactoryGirl.create(:tournament_team) }
+    context "when tournament team has players" do
+      it "should not delete the tournament team and add error" do
+        expect(tournament_team).to be_persisted
+        tournament_team_player = FactoryGirl.create(
+          :tournament_team_player,
+          tournament_team: tournament_team
+        )
+        expect{
+          tournament_team.destroy
+        }.to change(Tournament::Team, :count).by(0)
+        expect(tournament_team.errors[:base].any?).to be true
+      end
+    end
+
+    context "when tournament team has no players" do
+      it "should delete the tournament team" do
+        expect(tournament_team).to be_persisted
+        expect{
+          tournament_team.destroy
+        }.to change(Tournament::Team, :count).by(-1)
+        expect(tournament_team).not_to be_persisted
+      end
+    end
+  end
 end

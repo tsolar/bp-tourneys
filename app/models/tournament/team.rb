@@ -26,4 +26,14 @@ class Tournament::Team < ApplicationRecord
   validates :team_id, uniqueness: { scope: :tournament_id }
 
   accepts_nested_attributes_for :team_players, allow_destroy: true
+
+  before_destroy :check_players
+
+  private
+  def check_players
+    if team_players.any?
+      errors.add(:base, "no se puede eliminar el equipo pq tiene jugadores asociados")
+      throw :abort
+    end
+  end
 end

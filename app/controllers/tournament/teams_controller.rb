@@ -67,10 +67,18 @@ class Tournament::TeamsController < ApplicationController
   # DELETE /tournament/teams/1
   # DELETE /tournament/teams/1.json
   def destroy
-    @tournament_team.destroy
     respond_to do |format|
-      format.html { redirect_to tournament_teams_url, notice: 'Team was successfully destroyed.' }
-      format.json { head :no_content }
+      if @tournament_team.destroy
+        format.html { redirect_to tournament_teams_url, notice: 'Team was successfully destroyed.' }
+        format.json { head :no_content }
+      else
+        format.html {
+          flash[:error] = @tournament_team.errors.full_messages
+          redirect_to tournament_teams_path(@tournament)
+
+        }
+        format.json { render json: @tournament_team.errors, status: :unprocessable_entity }
+      end
     end
   end
 
