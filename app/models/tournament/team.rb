@@ -26,6 +26,8 @@ class Tournament::Team < ApplicationRecord
   validates :team_id, uniqueness: { scope: :tournament_id }
 
   accepts_nested_attributes_for :team_players, allow_destroy: true
+  accepts_nested_attributes_for :players, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :team, reject_if: :all_blank
 
   before_destroy :check_players
 

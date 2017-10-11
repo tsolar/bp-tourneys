@@ -11,6 +11,7 @@ class Tournament::TeamPlayer < ApplicationRecord
   validates :tournament_team, presence: true
   validates :tournament, presence: true
 
+  accepts_nested_attributes_for :player, reject_if: :all_blank, allow_destroy: true
   before_validation :set_tournament
 
   # A player can be only once in a team per tournament

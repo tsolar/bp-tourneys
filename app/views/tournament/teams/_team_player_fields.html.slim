@@ -1,3 +1,9 @@
 .nested-fields
-  = f.association :player
-  = link_to_remove_association "remove team player", f
+
+  = f.simple_fields_for :player do |player|
+    = render 'player_fields', f: player
+  .links
+    = link_to_add_association 'add player', f, :player
+
+  /= f.association :player
+  /= link_to_remove_association "remove player", f

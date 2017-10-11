@@ -19,6 +19,7 @@ class Tournament::TeamsController < ApplicationController
   # GET /tournament/teams/new
   def new
     @tournament_team = @tournament.tournament_teams.new
+    @tournament_team.build_team
   end
 
   # GET /tournament/teams/1/edit
@@ -41,7 +42,10 @@ class Tournament::TeamsController < ApplicationController
         }
         format.json { render :show, status: :created, location: @tournament_team }
       else
-        format.html { render :new }
+        format.html {
+          @tournament_team.build_team unless @tournament_team.team.present?
+          render :new
+        }
         format.json { render json: @tournament_team.errors, status: :unprocessable_entity }
       end
     end
@@ -54,7 +58,7 @@ class Tournament::TeamsController < ApplicationController
       if @tournament_team.update(tournament_team_params)
         format.html {
           # redirect_to @tournament_team, notice: 'Team was successfully updated.'
-          redirect_to tournament_teams_path(@tournament), notice: 'Team was successfully updated.'
+          redirect_to tournament_team_path(team_id: @tournament_team.team.to_param), notice: 'Team was successfully updated.'
         }
         format.json { render :show, status: :ok, location: @tournament_team }
       else
@@ -113,12 +117,20 @@ class Tournament::TeamsController < ApplicationController
     def tournament_team_params
       params.require(:tournament_team).permit(
         :team_id,
+        team_attributes: [
+          :id,
+          :name
+        ],
         team_players_attributes: [
           :id,
           :player_id,
           :_destroy
         ],
-        player_ids: []
+        players_attributes: [
+          :id,
+          :_destroy,
+          :name
+        ]
       )
     end
 end
