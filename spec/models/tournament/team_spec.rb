@@ -55,6 +55,7 @@ RSpec.describe Tournament::Team, type: :model do
       should have_many(:team_players)
         .class_name('Tournament::TeamPlayer')
         .with_foreign_key(:tournament_team_id)
+        .dependent(:destroy)
     }
 
     it {
@@ -68,16 +69,21 @@ RSpec.describe Tournament::Team, type: :model do
   describe "Deletion" do
     let!(:tournament_team) { FactoryGirl.create(:tournament_team) }
     context "when tournament team has players" do
-      it "should not delete the tournament team and add error" do
+      it "should delete the tournament team and tournament team players" do
         expect(tournament_team).to be_persisted
         tournament_team_player = FactoryGirl.create(
           :tournament_team_player,
           tournament_team: tournament_team
         )
+        expect(tournament_team.team_players.count).to eq 4
         expect{
           tournament_team.destroy
-        }.to change(Tournament::Team, :count).by(0)
-        expect(tournament_team.errors[:base].any?).to be true
+        }.to change(Tournament::Team, :count).by(-1).and \
+          change(Player::Base, :count).by(0).and \
+          change(Team::Base, :count).by(0).and \
+          change(Tournament::TeamPlayer, :count).by(-4)
+        expect(tournament_team.errors).to be_empty
+        expect(tournament_team).not_to be_persisted
       end
     end
 
@@ -86,7 +92,11 @@ RSpec.describe Tournament::Team, type: :model do
         expect(tournament_team).to be_persisted
         expect{
           tournament_team.destroy
-        }.to change(Tournament::Team, :count).by(-1)
+        }.to change(Tournament::Team, :count).by(-1).and \
+          change(Player::Base, :count).by(0).and \
+          change(Team::Base, :count).by(0).and \
+          change(Tournament::TeamPlayer, :count).by(-3)
+        expect(tournament_team.errors).to be_empty
         expect(tournament_team).not_to be_persisted
       end
     end

@@ -10,7 +10,8 @@ class Tournament::Team < ApplicationRecord
   has_many :team_players,
            class_name: 'Tournament::TeamPlayer',
            foreign_key: :tournament_team_id,
-           inverse_of: :tournament_team
+           inverse_of: :tournament_team,
+           dependent: :destroy
 
   has_many :players,
            class_name: 'Player::Base',
@@ -28,14 +29,4 @@ class Tournament::Team < ApplicationRecord
   accepts_nested_attributes_for :team_players, allow_destroy: true
   accepts_nested_attributes_for :players, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :team, reject_if: :all_blank
-
-  before_destroy :check_players
-
-  private
-  def check_players
-    if team_players.any?
-      errors.add(:base, "no se puede eliminar el equipo pq tiene jugadores asociados")
-      throw :abort
-    end
-  end
 end

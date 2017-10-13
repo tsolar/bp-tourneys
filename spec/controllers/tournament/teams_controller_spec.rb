@@ -20,15 +20,17 @@ require 'rails_helper'
 
 RSpec.describe Tournament::TeamsController, type: :controller do
 
+  let(:tournament) { FactoryGirl.create(:tournament_basis) }
+
   # This should return the minimal set of attributes required to create a valid
   # Tournament::Team. As you add validations to Tournament::Team, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryGirl.attributes_for(:tournament_team, tournament: tournament)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryGirl.attributes_for(:tournament_team_invalid, tournament: tournament)
   }
 
   # This should return the minimal set of values that should be in the session
@@ -39,7 +41,7 @@ RSpec.describe Tournament::TeamsController, type: :controller do
   describe "GET #index" do
     it "assigns all tournament_teams as @tournament_teams" do
       team = Tournament::Team.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      get :index, params: {tournament_id: tournament.to_param}, session: valid_session
       expect(assigns(:tournament_teams)).to eq([team])
     end
   end
@@ -47,8 +49,15 @@ RSpec.describe Tournament::TeamsController, type: :controller do
   describe "GET #show" do
     it "assigns the requested tournament_team as @tournament_team" do
       team = Tournament::Team.create! valid_attributes
-      get :show, params: {id: team.to_param}, session: valid_session
+      get :show, params: {tournament_id: tournament.to_param, team_id: team.team.to_param}, session: valid_session
       expect(assigns(:tournament_team)).to eq(team)
+    end
+
+    it "renders 404 if tournament_team does not exist" do
+      get :show, params: {tournament_id: tournament.to_param, team_id: 0}, session: valid_session
+      expect(assigns(:tournament_team)).to eq(nil)
+      expect(response).to render_template(file: "#{Rails.root}/public/404.html")
+      expect(response.status).to eq 404
     end
   end
 
@@ -63,7 +72,7 @@ RSpec.describe Tournament::TeamsController, type: :controller do
   describe "GET #edit" do
     it "assigns the requested tournament_team as @tournament_team" do
       team = Tournament::Team.create! valid_attributes
-      get :edit, params: {id: team.to_param}, session: valid_session
+      get :edit, params: {tournament_id: tournament.to_param, team_id: team.team.to_param}, session: valid_session
       expect(assigns(:tournament_team)).to eq(team)
     end
   end
@@ -72,30 +81,30 @@ RSpec.describe Tournament::TeamsController, type: :controller do
     context "with valid params" do
       it "creates a new Tournament::Team" do
         expect {
-          post :create, params: {tournament_team: valid_attributes}, session: valid_session
+          post :create, params: {tournament_id: tournament.to_param, tournament_team: valid_attributes}, session: valid_session
         }.to change(Tournament::Team, :count).by(1)
       end
 
       it "assigns a newly created tournament_team as @tournament_team" do
-        post :create, params: {tournament_team: valid_attributes}, session: valid_session
+        post :create, params: {tournament_id: tournament.to_param, tournament_team: valid_attributes}, session: valid_session
         expect(assigns(:tournament_team)).to be_a(Tournament::Team)
         expect(assigns(:tournament_team)).to be_persisted
       end
 
       it "redirects to the created tournament_team" do
-        post :create, params: {tournament_team: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Tournament::Team.last)
+        post :create, params: {tournament_id: tournament.to_param, tournament_team: valid_attributes}, session: valid_session
+        expect(response).to redirect_to(tournament_team_path(team_id: Tournament::Team.last.team.to_param))
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved tournament_team as @tournament_team" do
-        post :create, params: {tournament_team: invalid_attributes}, session: valid_session
+        post :create, params: {tournament_id: tournament.to_param, tournament_team: invalid_attributes}, session: valid_session
         expect(assigns(:tournament_team)).to be_a_new(Tournament::Team)
       end
 
       it "re-renders the 'new' template" do
-        post :create, params: {tournament_team: invalid_attributes}, session: valid_session
+        post :create, params: {tournament_id: tournament.to_param, tournament_team: invalid_attributes}, session: valid_session
         expect(response).to render_template("new")
       end
     end
@@ -104,39 +113,44 @@ RSpec.describe Tournament::TeamsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        FactoryGirl.attributes_for(:tournament_team)
       }
 
       it "updates the requested tournament_team" do
         team = Tournament::Team.create! valid_attributes
-        put :update, params: {id: team.to_param, tournament_team: new_attributes}, session: valid_session
+        # set team id to just update team name
+        new_attributes[:team_attributes][:id] = team.team.to_param
+        put :update, params: {tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: new_attributes}, session: valid_session
         team.reload
-        skip("Add assertions for updated state")
+        expect(team.team.name).to eq new_attributes[:team_attributes][:name]
       end
 
       it "assigns the requested tournament_team as @tournament_team" do
         team = Tournament::Team.create! valid_attributes
-        put :update, params: {id: team.to_param, tournament_team: valid_attributes}, session: valid_session
+        put :update, params: {tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: valid_attributes}, session: valid_session
         expect(assigns(:tournament_team)).to eq(team)
       end
 
       it "redirects to the tournament_team" do
         team = Tournament::Team.create! valid_attributes
-        put :update, params: {id: team.to_param, tournament_team: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(team)
+        # use the id of same team, to not create a new one
+        valid_attributes[:team_attributes][:id] = team.team.to_param
+        put :update, params: {tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: valid_attributes}, session: valid_session
+        expect(response).to redirect_to(tournament_team_path(team_id: team.team.to_param))
       end
     end
 
     context "with invalid params" do
       it "assigns the tournament_team as @tournament_team" do
         team = Tournament::Team.create! valid_attributes
-        put :update, params: {id: team.to_param, tournament_team: invalid_attributes}, session: valid_session
+        put :update, params: {tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: invalid_attributes}, session: valid_session
         expect(assigns(:tournament_team)).to eq(team)
       end
 
       it "re-renders the 'edit' template" do
         team = Tournament::Team.create! valid_attributes
-        put :update, params: {id: team.to_param, tournament_team: invalid_attributes}, session: valid_session
+        invalid_attributes[:team_attributes][:id] = team.team.to_param
+        put :update, params: {tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: invalid_attributes}, session: valid_session
         expect(response).to render_template("edit")
       end
     end
@@ -146,13 +160,15 @@ RSpec.describe Tournament::TeamsController, type: :controller do
     it "destroys the requested tournament_team" do
       team = Tournament::Team.create! valid_attributes
       expect {
-        delete :destroy, params: {id: team.to_param}, session: valid_session
-      }.to change(Tournament::Team, :count).by(-1)
+        delete :destroy, params: {tournament_id: tournament.to_param, team_id: team.team.to_param}, session: valid_session
+      }.to change(Tournament::Team, :count).by(-1).and \
+        change(Player::Base, :count).by(0).and \
+        change(Team::Base, :count).by(0)
     end
 
     it "redirects to the tournament_teams list" do
       team = Tournament::Team.create! valid_attributes
-      delete :destroy, params: {id: team.to_param}, session: valid_session
+      delete :destroy, params: {tournament_id: tournament.to_param, team_id: team.team.to_param}, session: valid_session
       expect(response).to redirect_to(tournament_teams_url)
     end
   end

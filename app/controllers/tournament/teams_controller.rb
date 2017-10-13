@@ -93,6 +93,7 @@ class Tournament::TeamsController < ApplicationController
         tournament: @tournament,
         team: @team
       )
+      render file: 'public/404', status: 404, layout: false unless @tournament_team
     end
 
     def set_tournament
@@ -100,7 +101,7 @@ class Tournament::TeamsController < ApplicationController
         @tournament = Tournament::Base.find(params[:tournament_id])
       rescue Exception => e
         # render 'errors/404', status: 404, layout: 'application'
-        render file: 'public/404', status: 404, layout: 'application'
+        render file: 'public/404', status: 404, layout: false
       end
     end
 
@@ -109,7 +110,7 @@ class Tournament::TeamsController < ApplicationController
         @team = Team::Base.find(params[:team_id])
       rescue Exception => e
         # render 'errors/404', status: 404, layout: 'application'
-        render file: 'public/404', status: 404, layout: :application
+        render file: 'public/404', status: 404, layout: false
       end
     end
 
