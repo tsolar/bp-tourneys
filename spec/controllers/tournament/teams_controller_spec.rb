@@ -19,6 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe Tournament::TeamsController, type: :controller do
+  login_user
 
   let(:tournament) { FactoryGirl.create(:tournament_basis) }
 

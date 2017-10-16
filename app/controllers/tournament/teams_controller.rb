@@ -1,4 +1,5 @@
 class Tournament::TeamsController < ApplicationController
+  before_action :authenticate_user!, except: [:index]
   before_action :set_tournament, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   before_action :set_team, only: [:show, :edit, :update, :destroy]
   before_action :set_tournament_team, only: [:show, :edit, :update, :destroy]

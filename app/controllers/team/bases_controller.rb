@@ -64,7 +64,8 @@ class Team::BasesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_team_basis
-      @team_basis = Team::Base.find(params[:id])
+      @team_basis = Team::Base.find_by(id: params[:id])
+      render file: 'public/404', status: 404, layout: false unless @team_basis
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
