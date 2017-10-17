@@ -7,13 +7,19 @@ RSpec.describe Tournament::Base, type: :model do
 
   describe "Relationships" do
     it { should have_many(:tournament_teams)
-                 .class_name('Tournament::Team')
-                 .with_foreign_key(:tournament_id) }
+        .class_name('Tournament::Team')
+        .with_foreign_key(:tournament_id) }
 
     it { should have_many(:teams)
-                 .through(:tournament_teams)
-                 .class_name('Team::Base')
-                 .source(:team) }
+        .through(:tournament_teams)
+        .class_name('Team::Base')
+        .source(:team) }
+
+    it { should belong_to(:owner)
+        .class_name('User')
+        .with_foreign_key(:owner_id)
+        .inverse_of(:tournaments) }
+
   end
 
   describe "Create" do

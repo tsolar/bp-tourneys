@@ -1,0 +1,6 @@
+en:
+  activerecord:
+    models:
+      tournament/base:
+        one: Tournament
+        other: Tournaments

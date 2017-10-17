@@ -20,7 +20,7 @@ class Tournament::TeamsController < ApplicationController
   # GET /tournament/teams/new
   def new
     @tournament_team = @tournament.tournament_teams.new
-    @tournament_team.build_team
+    @tournament_team.build_team(owner: current_user)
   end
 
   # GET /tournament/teams/1/edit
@@ -117,8 +117,7 @@ class Tournament::TeamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tournament_team_params
-      params.require(:tournament_team).permit(
-        :team_id,
+      _params = params.require(:tournament_team).permit(
         team_attributes: [
           :id,
           :name
@@ -134,5 +133,7 @@ class Tournament::TeamsController < ApplicationController
           :name
         ]
       )
+      _params[:team_attributes][:owner_id] = current_user.id
+      _params
     end
 end

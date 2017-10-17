@@ -1,4 +1,5 @@
 class Tournament::BasesController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_tournament_basis, only: [:show, :edit, :update, :destroy]
 
   # GET /tournament/bases
@@ -14,7 +15,7 @@ class Tournament::BasesController < ApplicationController
 
   # GET /tournament/bases/new
   def new
-    @tournament_basis = Tournament::Base.new
+    @tournament_basis = Tournament::Base.new(owner: current_user)
   end
 
   # GET /tournament/bases/1/edit
@@ -25,6 +26,7 @@ class Tournament::BasesController < ApplicationController
   # POST /tournament/bases.json
   def create
     @tournament_basis = Tournament::Base.new(tournament_basis_params)
+    @tournament_basis.owner = current_user
 
     respond_to do |format|
       if @tournament_basis.save

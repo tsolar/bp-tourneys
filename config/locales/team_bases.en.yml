@@ -1,0 +1,6 @@
+en:
+  activerecord:
+    models:
+      team/base:
+        one: Team
+        other: Teams

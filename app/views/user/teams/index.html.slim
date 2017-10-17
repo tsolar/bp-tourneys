@@ -1,0 +1,8 @@
+.page-header
+  h1
+    = Team::Base.model_name.human(count: :other)
+
+ul
+  - @teams.each do |team|
+    li
+      = link_to team.name, team

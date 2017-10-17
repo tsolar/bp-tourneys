@@ -19,6 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe Tournament::BasesController, type: :controller do
+  login_user
 
   # This should return the minimal set of attributes required to create a valid
   # Tournament::Base. As you add validations to Tournament::Base, be sure to
@@ -56,6 +57,7 @@ RSpec.describe Tournament::BasesController, type: :controller do
     it "assigns a new tournament_base as @tournament_base" do
       get :new, params: {}, session: valid_session
       expect(assigns(:tournament_basis)).to be_a_new(Tournament::Base)
+      expect(assigns(:tournament_basis).owner).to eq @user
     end
   end
 
@@ -73,12 +75,14 @@ RSpec.describe Tournament::BasesController, type: :controller do
         expect {
           post :create, params: {tournament_base: valid_attributes}, session: valid_session
         }.to change(Tournament::Base, :count).by(1)
+        expect(Tournament::Base.last.owner).to eq @user
       end
 
       it "assigns a newly created tournament_base as @tournament_base" do
         post :create, params: {tournament_base: valid_attributes}, session: valid_session
         expect(assigns(:tournament_basis)).to be_a(Tournament::Base)
         expect(assigns(:tournament_basis)).to be_persisted
+        expect(assigns(:tournament_basis).owner).to eq @user
       end
 
       it "redirects to the created tournament_base" do
@@ -111,6 +115,7 @@ RSpec.describe Tournament::BasesController, type: :controller do
         put :update, params: {id: base.to_param, tournament_base: new_attributes}, session: valid_session
         base.reload
         expect(base.name).to eq(new_attributes[:name])
+        expect(base.owner).to eq(@user)
       end
 
       it "assigns the requested tournament_base as @tournament_base" do

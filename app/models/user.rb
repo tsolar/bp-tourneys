@@ -10,6 +10,11 @@ class User < ApplicationRecord
            foreign_key: :owner_id,
            inverse_of: :owner
 
+  has_many :tournaments,
+           class_name: 'Tournament::Base',
+           foreign_key: :owner_id,
+           inverse_of: :owner
+
   accepts_nested_attributes_for :teams, reject_if: :reject_teams
 
   def username

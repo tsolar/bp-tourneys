@@ -67,6 +67,7 @@ RSpec.describe Tournament::TeamsController, type: :controller do
       tournament = FactoryGirl.create(:tournament_basis)
       get :new, params: {tournament_id: tournament.to_param}, session: valid_session
       expect(assigns(:tournament_team)).to be_a_new(Tournament::Team)
+      expect(assigns(:tournament_team).team.owner).to eq @user
     end
   end
 
@@ -90,6 +91,7 @@ RSpec.describe Tournament::TeamsController, type: :controller do
         post :create, params: {tournament_id: tournament.to_param, tournament_team: valid_attributes}, session: valid_session
         expect(assigns(:tournament_team)).to be_a(Tournament::Team)
         expect(assigns(:tournament_team)).to be_persisted
+        expect(assigns(:tournament_team).team.owner).to eq @user
       end
 
       it "redirects to the created tournament_team" do
@@ -117,13 +119,17 @@ RSpec.describe Tournament::TeamsController, type: :controller do
         FactoryGirl.attributes_for(:tournament_team)
       }
 
-      it "updates the requested tournament_team" do
+      it "updates the requested tournament_team and keeps the owner" do
         team = Tournament::Team.create! valid_attributes
+        team_owner = team.team.owner
+        expect(team_owner).to be_present
+
         # set team id to just update team name
         new_attributes[:team_attributes][:id] = team.team.to_param
         put :update, params: {tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: new_attributes}, session: valid_session
         team.reload
         expect(team.team.name).to eq new_attributes[:team_attributes][:name]
+        expect(team.team.owner).to eq team_owner
       end
 
       it "assigns the requested tournament_team as @tournament_team" do

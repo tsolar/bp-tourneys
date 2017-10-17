@@ -7,18 +7,18 @@ RSpec.describe Team::Base, type: :model do
 
   describe "Relationships" do
     it { should have_many(:tournament_teams)
-                 .class_name('Tournament::Team')
-                 .with_foreign_key(:team_id) }
+        .class_name('Tournament::Team')
+        .with_foreign_key(:team_id) }
 
     it { should have_many(:tournaments)
-                 .through(:tournament_teams)
-                 .class_name('Tournament::Base')
-                 .source(:tournament) }
+        .through(:tournament_teams)
+        .class_name('Tournament::Base')
+        .source(:tournament) }
 
     it { should belong_to(:owner)
-                  .class_name('User')
-                  .with_foreign_key(:owner_id)
-                  .inverse_of(:teams) }
+        .class_name('User')
+        .with_foreign_key(:owner_id)
+        .inverse_of(:teams) }
   end
 
   describe "Create" do
@@ -33,6 +33,5 @@ RSpec.describe Team::Base, type: :model do
       expect(team).not_to be_valid
       expect(team.save).to be false
     end
-
   end
 end
