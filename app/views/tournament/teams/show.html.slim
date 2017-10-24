@@ -6,11 +6,12 @@
     span.glyphicon.glyphicon-pencil
     |  Edit
   h1
-    | Show tournament_team
+    | #{Team::Base.model_name.human} #{@tournament_team.team.name}
 dl.dl-horizontal
   dt
-    | Players
+    | #{Player::Base.model_name.human(count: 2)}
   dd
     ul
       - @tournament_team.players.each do |player|
-        li = link_to "#{player.name} (#{player.id})", "player/#{player.id}"
+        / li = link_to "#{player.name} (#{player.id})", "player/#{player.id}"
+        li = "#{player.name}"

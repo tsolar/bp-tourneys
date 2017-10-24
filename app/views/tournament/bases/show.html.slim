@@ -6,18 +6,16 @@
     span.glyphicon.glyphicon-pencil
     |  Edit
   h1
-    | Show tournament_basis
+    | #{Tournament::Base.model_name.human}
+    strong
+      |  #{@tournament_basis.name}
 dl.dl-horizontal
   dt
-    | Name:
-  dd
-    = @tournament_basis.name
-  dt
-    | Teams:
+    | #{Team::Base.model_name.human(count: @tournament_basis.teams.count)}
   dd
     - if @tournament_basis.teams.any?
       ul
-      - @tournament_basis.teams.each do |team|
-        li = link_to team.name, team_basis_path(team)
+      - @tournament_basis.tournament_teams.each do |tournament_team|
+        li = link_to tournament_team.team.name, tournament_team_path(tournament_id: tournament_team.tournament_id, team_id: tournament_team.team_id)
     - else
       | No teams yet!

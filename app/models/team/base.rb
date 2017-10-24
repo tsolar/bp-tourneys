@@ -15,4 +15,5 @@ class Team::Base < ApplicationRecord
              inverse_of: :teams
 
   validates :name, presence: true
+  validates :name, uniqueness: true
 end

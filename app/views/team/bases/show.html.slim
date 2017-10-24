@@ -1,10 +1,10 @@
 .page-header
-  = link_to team_bases_path, class: 'btn btn-default' do 
+  = link_to team_bases_path, class: 'btn btn-default' do
     span.glyphicon.glyphicon-list-alt
-    |  Back 
-  = link_to edit_team_basis_path(@team_basis), class: 'btn btn-primary' do 
+    |  Back
+  = link_to edit_team_basis_path(@team_basis), class: 'btn btn-primary' do
     span.glyphicon.glyphicon-pencil
-    |  Edit 
+    |  Edit
   h1
     | Show team_basis
 dl.dl-horizontal
@@ -12,3 +12,14 @@ dl.dl-horizontal
     | Name:
   dd
     = @team_basis.name
+
+h2
+  | #{Tournament::Base.model_name.human(count: :other)}
+.tournaments-list
+  - @team_basis.tournament_teams.each do |tournament_team|
+    .tournament-name
+      = link_to tournament_team.tournament.name, tournament_path(tournament_team.tournament)
+    .tournament-players
+      ul
+        - tournament_team.players.each do |player|
+          li = player.name

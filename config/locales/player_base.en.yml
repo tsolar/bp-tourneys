@@ -1,0 +1,6 @@
+en:
+  activerecord:
+    models:
+      player/base:
+        one: Player
+        other: Players
