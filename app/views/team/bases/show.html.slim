@@ -6,7 +6,7 @@
     span.glyphicon.glyphicon-pencil
     |  Edit
   h1
-    | Show team_basis
+    | #{Team::Base.model_name.human} #{@team_basis.name}
 dl.dl-horizontal
   dt
     | Name:

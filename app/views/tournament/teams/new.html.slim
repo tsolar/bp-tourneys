@@ -1,9 +1,11 @@
 .page-header
-  = link_to tournament_teams_path, class: 'btn btn-default' do 
+  = link_to tournament_teams_path, class: 'btn btn-default' do
     span.glyphicon.glyphicon-list-alt
-    |  Back 
+    |  Back
   h1
-    | New 
-    | tournament_team
+    | New
+    |  #{Team::Base.model_name.human.downcase} for tournament
+    strong
+      |  #{@tournament.name}
 
 = render 'form'

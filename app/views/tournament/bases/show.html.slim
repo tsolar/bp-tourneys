@@ -5,6 +5,10 @@
   = link_to edit_tournament_path(@tournament_basis), class: 'btn btn-primary' do
     span.glyphicon.glyphicon-pencil
     |  Edit
+  = link_to new_tournament_team_path(@tournament_basis), class: 'btn btn-default' do
+    span.glyphicon.glyphicon-pencil
+    |  Create team
+
   h1
     | #{Tournament::Base.model_name.human}
     strong
