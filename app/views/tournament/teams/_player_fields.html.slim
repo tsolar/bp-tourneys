@@ -1,5 +1,4 @@
-.nested-fields.well.col-xs-12
+.nested-fields.col-xs-12
   .col-sm-6
+    = f.input :id, collection: Player::Base.all
     = f.input :name
-  .col-sm-6
-    = link_to_remove_association "remove player base", f, class: "btn btn-danger lala"

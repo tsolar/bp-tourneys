@@ -1,7 +1,8 @@
 class Tournament::Base < ApplicationRecord
   has_many :tournament_teams,
            class_name: 'Tournament::Team',
-           foreign_key: :tournament_id
+           foreign_key: :tournament_id,
+           inverse_of: :tournament
 
   has_many :teams,
            class_name: 'Team::Base',

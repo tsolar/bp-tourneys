@@ -1,9 +1,5 @@
-.nested-fields
-
-  = f.simple_fields_for :player do |player|
+.nested-fields.well
+  - f.object.build_player unless f.object.player.present?
+  = f.simple_fields_for :player, include_id: false do |player|
     = render 'player_fields', f: player
-  .links
-    = link_to_add_association 'add player', f, :player
-
-  /= f.association :player
-  /= link_to_remove_association "remove player", f
+  = link_to_remove_association "remove team player", f, class: 'btn btn-danger btn-xs'

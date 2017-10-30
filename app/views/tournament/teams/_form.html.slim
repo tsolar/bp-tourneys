@@ -14,20 +14,14 @@
       ul
         - @tournament_team.errors.full_messages.each do |msg|
           li= msg
-  /= f.association :team, collection: current_user.teams
+
   = f.simple_fields_for :team do |team_player|
     = render 'team_fields', f: team_player
 
-  /= f.association :players
-  / = f.simple_fields_for :team_players do |team_player|
-  /   = render 'team_player_fields', f: team_player
-  / .links
-  /   = link_to_add_association 'add team player', f, :team_players
-
-  = f.simple_fields_for :players , wrapper: :horizontal_form do |player|
-    = render 'player_fields', f: player
+  = f.simple_fields_for :team_players do |team_player|
+     = render 'team_player_fields', f: team_player
   .links
-    = link_to_add_association 'add player', f, :players
+     = link_to_add_association 'add team player', f, :team_players, class: 'btn btn-default'
 
   .form-group
     .col-sm-offset-2.col-sm-10

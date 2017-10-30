@@ -50,6 +50,7 @@ RSpec.describe Tournament::TeamPlayer, type: :model do
     it {
       should belong_to(:player)
         .class_name('Player::Base')
+        .inverse_of(:tournament_team_players)
     }
 
     it {

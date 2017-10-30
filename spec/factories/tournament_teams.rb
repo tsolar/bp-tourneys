@@ -3,12 +3,12 @@ FactoryGirl.define do
     # team { FactoryGirl.create(:team_basis) }
     tournament { FactoryGirl.create(:tournament_basis) }
     team_attributes { FactoryGirl.attributes_for(:team_basis) }
-    players_attributes {
-      FactoryGirl.attributes_for_list(
-        :player_basis,
-        3
-      )
-    }
+    # players_attributes {
+    #   FactoryGirl.attributes_for_list(
+    #     :player_basis,
+    #     3
+    #   )
+    # }
 
     factory :tournament_team_invalid do
       tournament nil

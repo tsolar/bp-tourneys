@@ -121,19 +121,19 @@ class Tournament::TeamsController < ApplicationController
         team_attributes: [
           :id,
           :name
+          # add `tournament_team_attributes`??
         ],
         team_players_attributes: [
           :id,
-          :player_id,
-          :_destroy
-        ],
-        players_attributes: [
-          :id,
           :_destroy,
-          :name
-        ]
+          player_attributes: [
+            :id,
+            :name
+          ]
+        ],
       )
       _params[:team_attributes][:owner_id] = current_user.id
+      # debugger
       _params
     end
 end
