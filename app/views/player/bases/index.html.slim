@@ -1,0 +1,23 @@
+.page-header
+  = link_to new_player_basis_path, class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New Basis
+  h1
+    | Listing player_bases
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th
+        th
+        th
+    tbody
+      - @player_bases.each do | player_basis |
+        tr
+          td
+            = link_to 'Show', player_basis
+          td
+            = link_to 'Edit', edit_player_basis_path(player_basis) 
+          td
+            = link_to 'Destroy', player_basis, method: :delete, data: { confirm: 'Are you sure?' } 
