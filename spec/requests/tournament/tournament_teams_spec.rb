@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Tournament::Teams", type: :request do
   describe "listing tournament teams" do
@@ -40,7 +40,7 @@ RSpec.describe "Tournament::Teams", type: :request do
           expect(assigns(:tournament_team).tournament).to eq tournament
           expect(assigns(:tournament_team).team).to be_a(Team::Base)
           expect(assigns(:tournament_team).team).to be_new_record
-          expect(response).to render_template('tournament/teams/new')
+          expect(response).to render_template("tournament/teams/new")
         end
       end
 

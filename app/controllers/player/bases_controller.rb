@@ -28,7 +28,7 @@ class Player::BasesController < ApplicationController
 
     respond_to do |format|
       if @player_basis.save
-        format.html { redirect_to @player_basis, notice: 'Basis was successfully created.' }
+        format.html { redirect_to @player_basis, notice: "Basis was successfully created." }
         format.json { render :show, status: :created, location: @player_basis }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class Player::BasesController < ApplicationController
   def update
     respond_to do |format|
       if @player_basis.update(player_basis_params)
-        format.html { redirect_to @player_basis, notice: 'Basis was successfully updated.' }
+        format.html { redirect_to @player_basis, notice: "Basis was successfully updated." }
         format.json { render :show, status: :ok, location: @player_basis }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class Player::BasesController < ApplicationController
   def destroy
     @player_basis.destroy
     respond_to do |format|
-      format.html { redirect_to player_bases_url, notice: 'Basis was successfully destroyed.' }
+      format.html { redirect_to player_bases_url, notice: "Basis was successfully destroyed." }
       format.json { head :no_content }
     end
   end

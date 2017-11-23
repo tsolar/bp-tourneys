@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Team::Bases", type: :request do
   describe "GET /team_bases" do
@@ -13,10 +13,10 @@ RSpec.describe "Team::Bases", type: :request do
       let(:team) { FactoryGirl.create(:team_basis) }
 
       context "when user is logged in" do
-        it 'shows team' do
+        it "shows team" do
           get team_basis_path(id: team.to_param)
           expect(assigns(:team_basis)).to eq team
-          expect(response).to render_template('team/bases/show')
+          expect(response).to render_template("team/bases/show")
           expect(response).to have_http_status(200)
         end
       end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Tournament::TeamPlayer, type: :model do
   describe "Validations" do
@@ -40,7 +40,7 @@ RSpec.describe Tournament::TeamPlayer, type: :model do
       expect(ttp3.save).to be true
     end
 
-    it 'should validate tournament is the same of tournament team' do
+    it "should validate tournament is the same of tournament team" do
       ttp = FactoryGirl.create(:tournament_team_player)
       expect(ttp.tournament).to eq ttp.tournament_team.tournament
     end
@@ -49,18 +49,18 @@ RSpec.describe Tournament::TeamPlayer, type: :model do
   describe "Relationships" do
     it {
       should belong_to(:player)
-        .class_name('Player::Base')
+        .class_name("Player::Base")
         .inverse_of(:tournament_team_players)
     }
 
     it {
       should belong_to(:tournament_team)
-        .class_name('Tournament::Team')
+        .class_name("Tournament::Team")
     }
 
     it {
       should belong_to(:tournament)
-        .class_name('Tournament::Base')
+        .class_name("Tournament::Base")
     }
   end
 end

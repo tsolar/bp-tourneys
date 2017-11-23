@@ -1,4 +1,5 @@
 # coding: utf-8
+
 class Tournament::Team < ApplicationRecord
   belongs_to :team,
              class_name: "Team::Base",
@@ -11,14 +12,14 @@ class Tournament::Team < ApplicationRecord
              inverse_of: :tournament_teams
 
   has_many :team_players,
-           class_name: 'Tournament::TeamPlayer',
+           class_name: "Tournament::TeamPlayer",
            foreign_key: :tournament_team_id,
            inverse_of: :tournament_team,
            dependent: :destroy,
            autosave: true # esto no sirve "parece"
 
   has_many :players,
-           class_name: 'Player::Base',
+           class_name: "Player::Base",
            through: :team_players,
            source: :player
 

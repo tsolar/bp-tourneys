@@ -4,5 +4,4 @@ class User::TeamsController < ApplicationController
   def index
     @teams = Team::Base.where(owner: current_user)
   end
-
 end

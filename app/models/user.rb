@@ -6,12 +6,12 @@ class User < ApplicationRecord
          :confirmable, :lockable, :timeoutable
 
   has_many :teams,
-           class_name: 'Team::Base',
+           class_name: "Team::Base",
            foreign_key: :owner_id,
            inverse_of: :owner
 
   has_many :tournaments,
-           class_name: 'Tournament::Base',
+           class_name: "Tournament::Base",
            foreign_key: :owner_id,
            inverse_of: :owner
 
@@ -28,7 +28,7 @@ class User < ApplicationRecord
   end
 
   private
-  def reject_teams(attributes)
-    attributes['name'].blank?
-  end
+    def reject_teams(attributes)
+      attributes["name"].blank?
+    end
 end

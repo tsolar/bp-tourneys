@@ -1,0 +1,21 @@
+inherit_gem:
+  rubocop-rails:
+    - config/rails.yml
+
+require: rubocop-rspec
+
+# Disable this check. Check again if update to Ruby 3.0
+# see https://stackoverflow.com/questions/38325533/disable-frozen-string-literal-comment-checking
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+AllCops:
+  # Use ruby version from .ruby-version file
+  TargetRubyVersion: ~
+
+  Exclude:
+    # exclude rails commands
+    - 'bin/**/*'
+
+    # If set Exclude in "AllCops", it checks "node_modules" folder too
+    - 'node_modules/**/*'

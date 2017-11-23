@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :tournament_team, class: 'Tournament::Team' do
+  factory :tournament_team, class: "Tournament::Team" do
     # team { FactoryGirl.create(:team_basis) }
     tournament { FactoryGirl.create(:tournament_basis) }
     team_attributes { FactoryGirl.attributes_for(:team_basis) }

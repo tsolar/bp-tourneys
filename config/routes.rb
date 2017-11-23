@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  root to: 'tournament/bases#index'
+  root to: "tournament/bases#index"
 
   resources :tournaments, controller: "tournament/bases" do
     resources :teams, param: :team_id, controller: "tournament/teams"
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     resources :bases
   end
 
-  get 'my_profile', controller: "my_profile", action: "index", as: :user_profile
+  get "my_profile", controller: "my_profile", action: "index", as: :user_profile
   resource :my_profile, except: [:new, :index], controller: "my_profile"
 
   namespace :user do

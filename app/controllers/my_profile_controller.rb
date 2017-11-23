@@ -14,13 +14,13 @@ class MyProfileController < ApplicationController
   end
 
   private
-  def user_params
-    params.require(:user).permit(
-      teams_attributes: [
-        :id,
-        :name,
-        :_destroy
-      ]
-    )
-  end
+    def user_params
+      params.require(:user).permit(
+        teams_attributes: [
+          :id,
+          :name,
+          :_destroy
+        ]
+      )
+    end
 end

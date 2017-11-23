@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Team::Base, type: :model do
   describe "Validations" do
@@ -8,16 +8,16 @@ RSpec.describe Team::Base, type: :model do
 
   describe "Relationships" do
     it { should have_many(:tournament_teams)
-        .class_name('Tournament::Team')
+        .class_name("Tournament::Team")
         .with_foreign_key(:team_id) }
 
     it { should have_many(:tournaments)
         .through(:tournament_teams)
-        .class_name('Tournament::Base')
+        .class_name("Tournament::Base")
         .source(:tournament) }
 
     it { should belong_to(:owner)
-        .class_name('User')
+        .class_name("User")
         .with_foreign_key(:owner_id)
         .inverse_of(:teams) }
   end

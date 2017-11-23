@@ -13,12 +13,12 @@ Rails.application.configure do
   config.consider_all_requests_local = true
 
   # Enable/disable caching. By default caching is disabled.
-  if Rails.root.join('tmp/caching-dev.txt').exist?
+  if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
+      "Cache-Control" => "public, max-age=#{2.days.seconds.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -33,7 +33,7 @@ Rails.application.configure do
 
   # default url options for devise
   # In production, :host should be set to the actual host of your application.
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -58,15 +58,15 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :user_name => ENV['ACTION_MAILER_SMTP_USERNAME'],
-    :password => ENV['ACTION_MAILER_SMTP_PASSWORD'],
-    :domain => ENV['ACTION_MAILER_SMTP_DOMAIN'],
-    :address => ENV['ACTION_MAILER_SMTP_ADDRESS'],
-    :port => ENV['ACTION_MAILER_SMTP_PORT'],
-    :authentication => ENV['ACTION_MAILER_SMTP_AUTHENTICATION'] || :plain,
-    :enable_starttls_auto => true,
+    user_name: ENV["ACTION_MAILER_SMTP_USERNAME"],
+    password: ENV["ACTION_MAILER_SMTP_PASSWORD"],
+    domain: ENV["ACTION_MAILER_SMTP_DOMAIN"],
+    address: ENV["ACTION_MAILER_SMTP_ADDRESS"],
+    port: ENV["ACTION_MAILER_SMTP_PORT"],
+    authentication: ENV["ACTION_MAILER_SMTP_AUTHENTICATION"] || :plain,
+    enable_starttls_auto: true,
     # I use this in development
-    :openssl_verify_mode => 'none'
+    openssl_verify_mode: "none"
   }
 
 end

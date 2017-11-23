@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User, type: :model do
   describe "Create" do
@@ -18,7 +18,7 @@ RSpec.describe User, type: :model do
 
       it "should create valid user with 2 of 3 teams (a team has no name)" do
         teams_attributes = FactoryGirl.attributes_for_list(:team_basis, 2)
-        teams_attributes << FactoryGirl.attributes_for(:team_basis, name: '')
+        teams_attributes << FactoryGirl.attributes_for(:team_basis, name: "")
         expect(teams_attributes.count).to eq 3
         user = FactoryGirl.build(:user, teams_attributes: teams_attributes)
         expect(user.save).to be true
@@ -29,7 +29,7 @@ RSpec.describe User, type: :model do
 
   describe "Relationships" do
     it { should have_many(:teams)
-                  .class_name('Team::Base')
+                  .class_name("Team::Base")
                   .with_foreign_key(:owner_id)
                   .inverse_of(:owner) }
 

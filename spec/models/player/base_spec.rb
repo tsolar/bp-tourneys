@@ -1,10 +1,10 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Player::Base, type: :model do
   describe "relationships" do
     it {
       should have_many(:tournament_team_players)
-        .class_name('Tournament::TeamPlayer')
+        .class_name("Tournament::TeamPlayer")
         .inverse_of(:player)
     }
   end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Tournament::Bases", type: :request do
   describe "GET /tournament_bases" do

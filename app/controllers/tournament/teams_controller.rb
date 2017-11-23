@@ -39,7 +39,7 @@ class Tournament::TeamsController < ApplicationController
             team_id: @tournament_team.team.to_param
           ),
 
-          notice: 'Team was successfully created.'
+          notice: "Team was successfully created."
         }
         format.json { render :show, status: :created, location: @tournament_team }
       else
@@ -59,7 +59,7 @@ class Tournament::TeamsController < ApplicationController
       if @tournament_team.update(tournament_team_params)
         format.html {
           # redirect_to @tournament_team, notice: 'Team was successfully updated.'
-          redirect_to tournament_team_path(team_id: @tournament_team.team.to_param), notice: 'Team was successfully updated.'
+          redirect_to tournament_team_path(team_id: @tournament_team.team.to_param), notice: "Team was successfully updated."
         }
         format.json { render :show, status: :ok, location: @tournament_team }
       else
@@ -74,7 +74,7 @@ class Tournament::TeamsController < ApplicationController
   def destroy
     respond_to do |format|
       if @tournament_team.destroy
-        format.html { redirect_to tournament_teams_url, notice: 'Team was successfully destroyed.' }
+        format.html { redirect_to tournament_teams_url, notice: "Team was successfully destroyed." }
         format.json { head :no_content }
       else
         format.html {
@@ -94,7 +94,7 @@ class Tournament::TeamsController < ApplicationController
         tournament: @tournament,
         team: @team
       )
-      render file: 'public/404', status: 404, layout: false unless @tournament_team
+      render file: "public/404", status: 404, layout: false unless @tournament_team
     end
 
     def set_tournament
@@ -102,7 +102,7 @@ class Tournament::TeamsController < ApplicationController
         @tournament = Tournament::Base.find(params[:tournament_id])
       rescue Exception => e
         # render 'errors/404', status: 404, layout: 'application'
-        render file: 'public/404', status: 404, layout: false
+        render file: "public/404", status: 404, layout: false
       end
     end
 
@@ -111,7 +111,7 @@ class Tournament::TeamsController < ApplicationController
         @team = Team::Base.find(params[:team_id])
       rescue Exception => e
         # render 'errors/404', status: 404, layout: 'application'
-        render file: 'public/404', status: 404, layout: false
+        render file: "public/404", status: 404, layout: false
       end
     end
 

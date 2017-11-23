@@ -1,15 +1,16 @@
 # coding: utf-8
+
 class Tournament::TeamPlayer < ApplicationRecord
   belongs_to :player,
-             class_name: 'Player::Base',
+             class_name: "Player::Base",
              inverse_of: :tournament_team_players
 
   belongs_to :tournament_team,
-             class_name: 'Tournament::Team',
+             class_name: "Tournament::Team",
              inverse_of: :team_players
 
   belongs_to :tournament,
-             class_name: 'Tournament::Base'
+             class_name: "Tournament::Base"
 
   validates :player, presence: true
   validates :tournament_team, presence: true
@@ -25,7 +26,7 @@ class Tournament::TeamPlayer < ApplicationRecord
     # set player because otherwise it fails with
     # "Couldn't find Player::Base with ID=25 for Tournament::TeamPlayer with ID="
     # when relating an existing player to a new Tournament::TeamPlayer
-    self.player = Player::Base.find_by(id: attributes['id'])
+    self.player = Player::Base.find_by(id: attributes["id"])
 
     # check every attribute except id, if is blank.
     # If attribute is blank, then remove it from attributes,
@@ -37,7 +38,7 @@ class Tournament::TeamPlayer < ApplicationRecord
   end
 
   private
-  def set_tournament
-    self.tournament = tournament_team.tournament if tournament_team.present?
-  end
+    def set_tournament
+      self.tournament = tournament_team.tournament if tournament_team.present?
+    end
 end

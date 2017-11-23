@@ -30,7 +30,7 @@ class Tournament::BasesController < ApplicationController
 
     respond_to do |format|
       if @tournament_basis.save
-        format.html { redirect_to tournament_path(@tournament_basis), notice: 'Base was successfully created.' }
+        format.html { redirect_to tournament_path(@tournament_basis), notice: "Base was successfully created." }
         format.json { render :show, status: :created, location: @tournament_basis }
       else
         format.html { render :new }
@@ -44,7 +44,7 @@ class Tournament::BasesController < ApplicationController
   def update
     respond_to do |format|
       if @tournament_basis.update(tournament_basis_params)
-        format.html { redirect_to tournament_path(@tournament_basis), notice: 'Base was successfully updated.' }
+        format.html { redirect_to tournament_path(@tournament_basis), notice: "Base was successfully updated." }
         format.json { render :show, status: :ok, location: @tournament_basis }
       else
         format.html { render :edit }
@@ -58,7 +58,7 @@ class Tournament::BasesController < ApplicationController
   def destroy
     @tournament_basis.destroy
     respond_to do |format|
-      format.html { redirect_to tournaments_url, notice: 'Base was successfully destroyed.' }
+      format.html { redirect_to tournaments_url, notice: "Base was successfully destroyed." }
       format.json { head :no_content }
     end
   end

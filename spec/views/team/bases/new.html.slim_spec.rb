@@ -1,9 +1,9 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "team/bases/new", type: :view do
   before(:each) do
     assign(:team_base, Team::Base.new(
-      :name => "MyString"
+                         name: "MyString"
     ))
   end
 

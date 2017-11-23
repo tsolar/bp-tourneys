@@ -1,9 +1,9 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "tournament/bases/edit", type: :view do
   before(:each) do
     @tournament_base = assign(:tournament_base, Tournament::Base.create!(
-      :name => "MyString"
+                                                  name: "MyString"
     ))
   end
 
