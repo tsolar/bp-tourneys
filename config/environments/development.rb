@@ -33,8 +33,11 @@ Rails.application.configure do
 
   # default url options for devise
   # In production, :host should be set to the actual host of your application.
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
-
+  config.action_mailer.default_url_options = {
+    host: ENV["ACTION_MAILER_DEFAULT_URL_HOST"] || "localhost",
+    port: ENV["ACTION_MAILER_DEFAULT_URL_PORT"] || 3000,
+    protocol: ENV["ACTION_MAILER_DEFAULT_URL_PROTOCOL"] || "http" # http in development
+  }
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
