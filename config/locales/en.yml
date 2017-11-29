@@ -22,6 +22,8 @@
 en:
   hello: "Hello world"
 
+  unauthorized: You are not authorized to do this action
+
   user:
     sign_in: "Sign in"
     sign_out: "Sign out"

@@ -21,7 +21,8 @@ html
         p.hidden
           = "------------>>> name: #{name}, msg: #{msg} <<<<--------------"
         - if name != 'timedout'
-          = content_tag :div, class: "alert alert-#{ name == :error.to_s ? "danger" : "success" } alert-dismissable", role: "alert" do
+          / TODO: define color class for error, alert, notice, etc
+          = content_tag :div, class: "alert alert-#{ name == :error.to_s || name == :alert.to_s ? "danger" : "success" } alert-dismissable", role: "alert" do
             button.close type="button" data-dismiss="alert"
               span aria-hidden="true"
                 | &times;
