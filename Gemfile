@@ -86,6 +86,7 @@ end
 
 group :test do
   gem "shoulda-matchers", "~> 3.1"
+  gem "pundit-matchers", "~> 1.4.1"
 end
 
 group :development do
