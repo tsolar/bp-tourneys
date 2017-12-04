@@ -1,9 +1,9 @@
 .page-header
   = link_to new_tournament_path, class: 'btn btn-primary' do
     span.glyphicon.glyphicon-plus
-    |  New Base
+    |  New #{Tournament::Base.model_name.human.downcase}
   h1
-    | Listing tournament_bases
+    | Listing #{Tournament::Base.model_name.human(count: @tournament_bases.count).downcase}
 
 .table-responsive
   table.table.table-striped.table-bordered.table-hover

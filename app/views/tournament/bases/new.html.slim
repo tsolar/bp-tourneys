@@ -4,6 +4,6 @@
     |  Back
   h1
     | New
-    |  #{Tournament::Base.model_name.human}
+    |  #{Tournament::Base.model_name.human.downcase}
 
 = render partial: 'form', locals: { action_url: tournaments_path }
