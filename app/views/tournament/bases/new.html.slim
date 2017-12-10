@@ -1,9 +1,9 @@
 .page-header
-  = link_to tournament_bases_path, class: 'btn btn-default' do 
+  = link_to tournaments_path, class: 'btn btn-default' do
     span.glyphicon.glyphicon-list-alt
-    |  Back 
+    |  Back
   h1
-    | New 
-    | tournament_basis
+    | New
+    |  #{Tournament::Base.model_name.human.downcase}
 
-= render 'form'
+= render partial: 'form', locals: { action_url: tournaments_path }

@@ -13,12 +13,12 @@ Rails.application.configure do
   config.consider_all_requests_local = true
 
   # Enable/disable caching. By default caching is disabled.
-  if Rails.root.join('tmp/caching-dev.txt').exist?
+  if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => 'public, max-age=172800'
+      "Cache-Control" => "public, max-age=#{2.days.seconds.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -31,6 +31,13 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # default url options for devise
+  # In production, :host should be set to the actual host of your application.
+  config.action_mailer.default_url_options = {
+    host: ENV["ACTION_MAILER_DEFAULT_URL_HOST"] || "localhost",
+    port: ENV["ACTION_MAILER_DEFAULT_URL_PORT"] || 3000,
+    protocol: ENV["ACTION_MAILER_DEFAULT_URL_PROTOCOL"] || "http" # http in development
+  }
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -51,4 +58,18 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    user_name: ENV["ACTION_MAILER_SMTP_USERNAME"],
+    password: ENV["ACTION_MAILER_SMTP_PASSWORD"],
+    domain: ENV["ACTION_MAILER_SMTP_DOMAIN"],
+    address: ENV["ACTION_MAILER_SMTP_ADDRESS"],
+    port: ENV["ACTION_MAILER_SMTP_PORT"],
+    authentication: ENV["ACTION_MAILER_SMTP_AUTHENTICATION"] || :plain,
+    enable_starttls_auto: true,
+    # I use this in development
+    openssl_verify_mode: "none"
+  }
+
 end

@@ -7,44 +7,42 @@ html
     meta name="description" content=""
     meta name="author" content=""
     title
-      | Starter Template for Bootstrap
+      | Bikepolo Tourneys
     /! HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
     /[if lt IE 9]
       = javascript_include_tag "https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js", "https://oss.maxcdn.com/respond/1.4.2/respond.min.js"
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
 
     = csrf_meta_tags
   body
-    nav.navbar.navbar-inverse.navbar-fixed-top role="navigation"
-      .container
-        .navbar-header
-          button.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"
-            span.sr-only
-              | Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          = link_to "Project name", "#", class: "navbar-brand"
-        #navbar.collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li.active
-              a href="#"
-                | Home
-            li
-              a href="#about"
-                | About
-            li
-              a href="#contact"
-                | Contact
+    = render partial: 'common/main_navbar'
     .container
       - flash.each do |name, msg|
-        = content_tag :div, class: "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", role: "alert" do
-          button.close type="button" data-dismiss="alert"
-            span aria-hidden="true"
-              | &times;
-            span.sr-only
-              | Close
-          = msg
+        p.hidden
+          = "------------>>> name: #{name}, msg: #{msg} <<<<--------------"
+        - if name != 'timedout'
+          / TODO: define color class for error, alert, notice, etc
+          = content_tag :div, class: "alert alert-#{ name == :error.to_s || name == :alert.to_s ? "danger" : "success" } alert-dismissable", role: "alert" do
+            button.close type="button" data-dismiss="alert"
+              span aria-hidden="true"
+                | &times;
+              span.sr-only
+                | Close
+            - if msg.is_a?(Hash)
+              - msg.each do |k, v|
+                ul
+                  - v.each do |vv|
+                    li = vv
+            - elsif msg.is_a?(Array)
+              ul
+                - msg.each do |m|
+                  li = m
+            - else
+              = msg
+      / this is devise stuff. Should verify how it is shown and change it.
+      / p.notice = notice
+      / p.alert = alert
+
       = yield
 
   = javascript_include_tag 'application', 'data-turbolinks-track' => true

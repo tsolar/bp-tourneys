@@ -1,0 +1,20 @@
+a {
+  &.btn {
+    &:visited {
+      color: $gray-lighter;
+    }
+  }
+
+  &.btn-default {
+    &:visited {
+      color: $gray-dark;
+    }
+  }
+
+  &.btn-link {
+    &:visited {
+      color: $gray-dark;
+    }
+  }
+
+}

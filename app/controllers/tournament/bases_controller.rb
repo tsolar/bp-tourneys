@@ -1,9 +1,12 @@
 class Tournament::BasesController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_tournament_basis, only: [:show, :edit, :update, :destroy]
+  after_action :verify_authorized
 
   # GET /tournament/bases
   # GET /tournament/bases.json
   def index
+    authorize Tournament::Base
     @tournament_bases = Tournament::Base.all
   end
 
@@ -14,7 +17,8 @@ class Tournament::BasesController < ApplicationController
 
   # GET /tournament/bases/new
   def new
-    @tournament_basis = Tournament::Base.new
+    @tournament_basis = Tournament::Base.new(owner: current_user)
+    authorize @tournament_basis
   end
 
   # GET /tournament/bases/1/edit
@@ -25,10 +29,12 @@ class Tournament::BasesController < ApplicationController
   # POST /tournament/bases.json
   def create
     @tournament_basis = Tournament::Base.new(tournament_basis_params)
+    @tournament_basis.owner = current_user
+    authorize @tournament_basis
 
     respond_to do |format|
       if @tournament_basis.save
-        format.html { redirect_to @tournament_basis, notice: 'Base was successfully created.' }
+        format.html { redirect_to tournament_path(@tournament_basis), notice: "Base was successfully created." }
         format.json { render :show, status: :created, location: @tournament_basis }
       else
         format.html { render :new }
@@ -42,7 +48,7 @@ class Tournament::BasesController < ApplicationController
   def update
     respond_to do |format|
       if @tournament_basis.update(tournament_basis_params)
-        format.html { redirect_to @tournament_basis, notice: 'Base was successfully updated.' }
+        format.html { redirect_to tournament_path(@tournament_basis), notice: "Base was successfully updated." }
         format.json { render :show, status: :ok, location: @tournament_basis }
       else
         format.html { render :edit }
@@ -56,7 +62,7 @@ class Tournament::BasesController < ApplicationController
   def destroy
     @tournament_basis.destroy
     respond_to do |format|
-      format.html { redirect_to tournament_bases_url, notice: 'Base was successfully destroyed.' }
+      format.html { redirect_to tournaments_url, notice: "Base was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -65,6 +71,7 @@ class Tournament::BasesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_tournament_basis
       @tournament_basis = Tournament::Base.find(params[:id])
+      authorize @tournament_basis
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,5 +1,6 @@
 class Tournament::TeamsController < ApplicationController
-  before_action :set_tournament, only: [:index, :show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index]
+  before_action :set_tournament, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   before_action :set_team, only: [:show, :edit, :update, :destroy]
   before_action :set_tournament_team, only: [:show, :edit, :update, :destroy]
 
@@ -18,7 +19,8 @@ class Tournament::TeamsController < ApplicationController
 
   # GET /tournament/teams/new
   def new
-    @tournament_team = Tournament::Team.new
+    @tournament_team = @tournament.tournament_teams.new
+    @tournament_team.build_team(owner: current_user)
   end
 
   # GET /tournament/teams/1/edit
@@ -28,14 +30,23 @@ class Tournament::TeamsController < ApplicationController
   # POST /tournament/teams
   # POST /tournament/teams.json
   def create
-    @tournament_team = Tournament::Team.new(tournament_team_params)
+    @tournament_team = @tournament.tournament_teams.new(tournament_team_params)
 
     respond_to do |format|
       if @tournament_team.save
-        format.html { redirect_to @tournament_team, notice: 'Team was successfully created.' }
+        format.html {
+          redirect_to tournament_team_path(
+            team_id: @tournament_team.team.to_param
+          ),
+
+          notice: "Team was successfully created."
+        }
         format.json { render :show, status: :created, location: @tournament_team }
       else
-        format.html { render :new }
+        format.html {
+          @tournament_team.build_team unless @tournament_team.team.present?
+          render :new
+        }
         format.json { render json: @tournament_team.errors, status: :unprocessable_entity }
       end
     end
@@ -46,7 +57,10 @@ class Tournament::TeamsController < ApplicationController
   def update
     respond_to do |format|
       if @tournament_team.update(tournament_team_params)
-        format.html { redirect_to @tournament_team, notice: 'Team was successfully updated.' }
+        format.html {
+          # redirect_to @tournament_team, notice: 'Team was successfully updated.'
+          redirect_to tournament_team_path(team_id: @tournament_team.team.to_param), notice: "Team was successfully updated."
+        }
         format.json { render :show, status: :ok, location: @tournament_team }
       else
         format.html { render :edit }
@@ -58,10 +72,18 @@ class Tournament::TeamsController < ApplicationController
   # DELETE /tournament/teams/1
   # DELETE /tournament/teams/1.json
   def destroy
-    @tournament_team.destroy
     respond_to do |format|
-      format.html { redirect_to tournament_teams_url, notice: 'Team was successfully destroyed.' }
-      format.json { head :no_content }
+      if @tournament_team.destroy
+        format.html { redirect_to tournament_teams_url, notice: "Team was successfully destroyed." }
+        format.json { head :no_content }
+      else
+        format.html {
+          flash[:error] = @tournament_team.errors.full_messages
+          redirect_to tournament_teams_path(@tournament)
+
+        }
+        format.json { render json: @tournament_team.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -72,18 +94,46 @@ class Tournament::TeamsController < ApplicationController
         tournament: @tournament,
         team: @team
       )
+      render file: "public/404", status: 404, layout: false unless @tournament_team
     end
 
     def set_tournament
-      @tournament = Tournament::Base.find(params[:tournament_id])
+      begin
+        @tournament = Tournament::Base.find(params[:tournament_id])
+      rescue Exception => e
+        # render 'errors/404', status: 404, layout: 'application'
+        render file: "public/404", status: 404, layout: false
+      end
     end
 
     def set_team
-      @team = Team::Base.find(params[:team_id])
+      begin
+        @team = Team::Base.find(params[:team_id])
+      rescue Exception => e
+        # render 'errors/404', status: 404, layout: 'application'
+        render file: "public/404", status: 404, layout: false
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tournament_team_params
-      params.fetch(:tournament_team, {})
+      _params = params.require(:tournament_team).permit(
+        team_attributes: [
+          :id,
+          :name
+          # add `tournament_team_attributes`??
+        ],
+        team_players_attributes: [
+          :id,
+          :_destroy,
+          player_attributes: [
+            :id,
+            :name
+          ]
+        ],
+      )
+      _params[:team_attributes][:owner_id] = current_user.id
+      # debugger
+      _params
     end
 end

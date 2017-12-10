@@ -1,13 +1,14 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "tournament/bases/edit", type: :view do
   before(:each) do
     @tournament_base = assign(:tournament_base, Tournament::Base.create!(
-      :name => "MyString"
+                                                  name: "MyString"
     ))
   end
 
   it "renders the edit tournament_base form" do
+    skip "will test this later, maybe not needed"
     render
 
     assert_select "form[action=?][method=?]", tournament_base_path(@tournament_base), "post" do

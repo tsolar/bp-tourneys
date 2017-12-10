@@ -2,14 +2,16 @@
   = link_to tournament_teams_path, class: 'btn btn-default' do
     span.glyphicon.glyphicon-list-alt
     |  Back
-  = link_to edit_tournament_team_path(@tournament_team), class: 'btn btn-primary' do
+  = link_to edit_tournament_team_path(team_id: @tournament_team.team.to_param), class: 'btn btn-primary' do
     span.glyphicon.glyphicon-pencil
     |  Edit
   h1
-    | Show tournament_team
+    | #{Team::Base.model_name.human} #{@tournament_team.team.name}
 dl.dl-horizontal
   dt
-    | Players
+    | #{Player::Base.model_name.human(count: 2)}
   dd
-    - @tournament_team.players.each do |player|
-      = player.name
+    ul
+      - @tournament_team.players.each do |player|
+        / li = link_to "#{player.name} (#{player.id})", "player/#{player.id}"
+        li = "#{player.name}"

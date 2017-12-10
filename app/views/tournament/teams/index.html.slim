@@ -1,15 +1,16 @@
 .page-header
   = link_to new_tournament_team_path, class: 'btn btn-primary' do
     span.glyphicon.glyphicon-plus
-    |  New Team
+    |  New #{Team::Base.model_name.human}
   h1
-    | Listing tournament_teams
+    | Listing #{Team::Base.model_name.human(count: @tournament_teams.count).downcase} of #{Tournament::Base.model_name.human.downcase} #{@tournament.name}
 
 .table-responsive
   table.table.table-striped.table-bordered.table-hover
     thead
       tr
-        th Tournament team name
+        th = Team::Base.human_attribute_name(:name)
+        th = Tournament::Team.human_attribute_name(:players)
         th
         th
         th
@@ -18,6 +19,8 @@
         tr
           td
             = tournament_team.team.name
+          td
+            = tournament_team.players.join(", ")
           td
             = link_to 'Show', tournament_team_path(tournament_id: @tournament.to_param, team_id: tournament_team.team.to_param)
           td

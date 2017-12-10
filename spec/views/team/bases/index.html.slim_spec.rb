@@ -1,19 +1,13 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "team/bases/index", type: :view do
   before(:each) do
-    assign(:team_bases, [
-      Team::Base.create!(
-        :name => "Name"
-      ),
-      Team::Base.create!(
-        :name => "Name"
-      )
-    ])
+    assign(:team_bases, FactoryGirl.create_list(:team_basis, 2))
   end
 
   it "renders a list of team/bases" do
     render
-    assert_select "tr>td", :text => "Name".to_s, :count => 2
+    assert_select "tr>td", text: Team::Base.last(2).last.name.to_s, count: 1
+    assert_select "tr>td", text: Team::Base.last(2).first.name.to_s, count: 1
   end
 end

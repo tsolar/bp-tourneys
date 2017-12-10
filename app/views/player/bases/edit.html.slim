@@ -1,0 +1,12 @@
+.page-header
+  = link_to player_bases_path, class: 'btn btn-default' do
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to @player_basis, class: 'btn btn-primary' do
+    span.glyphicon.glyphicon-info-sign
+    |  Show 
+  h1
+    | Editing 
+    | player_basis
+
+= render 'form'

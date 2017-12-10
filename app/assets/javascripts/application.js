@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+//  require turbolinks // turbolinks makes dropdown-menu stop working
 //= require bootstrap
+//= require cocoon
 //= require_tree .

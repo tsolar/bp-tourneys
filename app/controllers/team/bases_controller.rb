@@ -28,7 +28,7 @@ class Team::BasesController < ApplicationController
 
     respond_to do |format|
       if @team_basis.save
-        format.html { redirect_to @team_basis, notice: 'Base was successfully created.' }
+        format.html { redirect_to @team_basis, notice: "Base was successfully created." }
         format.json { render :show, status: :created, location: @team_basis }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class Team::BasesController < ApplicationController
   def update
     respond_to do |format|
       if @team_basis.update(team_basis_params)
-        format.html { redirect_to @team_basis, notice: 'Base was successfully updated.' }
+        format.html { redirect_to @team_basis, notice: "Base was successfully updated." }
         format.json { render :show, status: :ok, location: @team_basis }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class Team::BasesController < ApplicationController
   def destroy
     @team_basis.destroy
     respond_to do |format|
-      format.html { redirect_to team_bases_url, notice: 'Base was successfully destroyed.' }
+      format.html { redirect_to team_bases_url, notice: "Base was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -64,7 +64,8 @@ class Team::BasesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_team_basis
-      @team_basis = Team::Base.find(params[:id])
+      @team_basis = Team::Base.find_by(id: params[:id])
+      render file: "public/404", status: 404, layout: false unless @team_basis
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

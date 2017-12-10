@@ -1,4 +1,4 @@
-= form_for(@tournament_basis, html: { class: "form-horizontal", role: "form" }) do |f|
+= form_for(@tournament_basis, url: action_url, html: { class: "form-horizontal", role: "form" }) do |f|
   - if @tournament_basis.errors.any?
     .alert.alert-danger.alert-dismissable role="alert"
       button.close type="button" data-dismiss="alert"
