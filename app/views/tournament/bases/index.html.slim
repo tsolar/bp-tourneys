@@ -1,27 +1,42 @@
 .page-header
-  = link_to new_tournament_path, class: 'btn btn-primary' do
-    span.glyphicon.glyphicon-plus
-    |  New #{Tournament::Base.model_name.human.downcase}
+  - if policy(Tournament::Base).new?
+    = link_to new_tournament_path, class: 'btn btn-primary' do
+      span.glyphicon.glyphicon-plus
+      |  New #{Tournament::Base.model_name.human.downcase}
   h1
     | Listing #{Tournament::Base.model_name.human(count: @tournament_bases.count).downcase}
 
+/ - if @tournament_bases.any?
+/   - @tournament_bases.each do | tournament_basis |
+/     .col-xs-12.col-sm-6.col-md-4
+/       .panel.panel-default
+/         .panel-heading
+/           = link_to tournament_basis.name, tournament_path(tournament_basis)
+/           /- if policy(tournament_basis).edit?
+/             = link_to edit_tournament_path(tournament_basis), class: "btn btn-link btn-sm" do
+/               span.glyphicon.glyphicon-pencil aria-hidden="true"
+/         .panel-body
+/           = render partial: "tournament/bases/panel_body"
+/ - else
+/   p
+/     | No tournaments created yet.
 .table-responsive
   table.table.table-striped.table-bordered.table-hover
     thead
       tr
         th
           | Name
-        th
-        th
-        th
+        / th
+        / th
+        / th
     tbody
       - @tournament_bases.each do | tournament_basis |
         tr
           td
-            = tournament_basis.name
-          td
-            = link_to 'Show', tournament_path(tournament_basis)
-          td
-            = link_to 'Edit', edit_tournament_path(tournament_basis)
-          td
-            = link_to 'Destroy', tournament_path(tournament_basis), method: :delete, data: { confirm: 'Are you sure?' }
+            = link_to tournament_basis.name, tournament_path(tournament_basis)
+          / td
+          /   = link_to 'Show', tournament_path(tournament_basis)
+          / td
+          /   = link_to 'Edit', edit_tournament_path(tournament_basis)
+          / td
+          /   = link_to 'Destroy', tournament_path(tournament_basis), method: :delete, data: { confirm: 'Are you sure?' }

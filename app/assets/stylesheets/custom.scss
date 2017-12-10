@@ -10,4 +10,11 @@ a {
       color: $gray-dark;
     }
   }
+
+  &.btn-link {
+    &:visited {
+      color: $gray-dark;
+    }
+  }
+
 }

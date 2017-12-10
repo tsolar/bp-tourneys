@@ -7,6 +7,8 @@
     |  Show
   h1
     | Editing
-    | tournament_basis
+    |  #{Tournament::Base.model_name.human.downcase}
+    strong
+      |  #{@tournament_basis.name}
 
 = render partial: 'form', locals: { action_url: tournament_path(@tournament_basis) }
