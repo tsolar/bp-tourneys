@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171024222304) do
+ActiveRecord::Schema.define(version: 20171211031834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,14 @@ ActiveRecord::Schema.define(version: 20171024222304) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "owner_id"
+    t.text "description"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.string "address"
+    t.string "city"
+    t.string "country_code"
+    t.float "lat"
+    t.float "lng"
     t.index ["owner_id"], name: "index_tournament_bases_on_owner_id"
   end
 

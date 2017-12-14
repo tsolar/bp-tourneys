@@ -76,6 +76,16 @@ class Tournament::BasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tournament_basis_params
-      params.require(:tournament_base).permit(:name)
+      params.require(:tournament_base).permit(
+        :name,
+        :description,
+        :address,
+        :city,
+        :country_code,
+        :lat,
+        :lng,
+        :starts_at,
+        :ends_at
+      )
     end
 end

@@ -25,15 +25,30 @@
     thead
       tr
         th
-          | Name
-        / th
-        / th
+          = Tournament::Base.human_attribute_name(:name)
+        th
+          = Tournament::Base.human_attribute_name(:city)
+        th
+          = Tournament::Base.human_attribute_name(:country)
+        th
+          = Tournament::Base.human_attribute_name(:starts_at)
+        th
+          = Tournament::Base.human_attribute_name(:ends_at)
         / th
     tbody
       - @tournament_bases.each do | tournament_basis |
         tr
           td
             = link_to tournament_basis.name, tournament_path(tournament_basis)
+          td
+            = tournament_basis.city
+          td
+            = tournament_basis.country_name_with_emoji
+          td
+            = tournament_basis.starts_at.present? ? l(tournament_basis.starts_at, format: :short) : ""
+          td
+            = tournament_basis.ends_at.present? ? l(tournament_basis.ends_at, format: :short) : ""
+
           / td
           /   = link_to 'Show', tournament_path(tournament_basis)
           / td

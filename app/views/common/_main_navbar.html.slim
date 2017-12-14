@@ -10,15 +10,10 @@ nav.navbar.navbar-inverse.navbar-fixed-top role="navigation"
       = link_to "Bikepolo Tourneys", root_path, class: "navbar-brand"
     #navbar.collapse.navbar-collapse
       ul.nav.navbar-nav
-        li.active
-          a href="#"
-            | Home
-        li
-          a href="#about"
-            | About
-        li
-          a href="#contact"
-            | Contact
+        li class="#{active_class(root_path)}"
+          = link_to "Home", root_path
+        li class="#{active_class(tournaments_path)}"
+          = link_to Tournament::Base.model_name.human(count: 2), tournaments_path
       ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           = render partial: 'common/user_menu'

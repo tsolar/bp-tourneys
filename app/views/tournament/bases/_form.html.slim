@@ -1,4 +1,4 @@
-= form_for(@tournament_basis, url: action_url, html: { class: "form-horizontal", role: "form" }) do |f|
+= simple_form_for(@tournament_basis, url: action_url, html: { class: "form-horizontal", role: "form" }, wrapper: :horizontal_form) do |f|
   - if @tournament_basis.errors.any?
     .alert.alert-danger.alert-dismissable role="alert"
       button.close type="button" data-dismiss="alert"
@@ -10,10 +10,15 @@
       ul
         - @tournament_basis.errors.full_messages.each do |msg|
           li= msg
+
+  = f.input :name
+  = f.input :description
+  = f.input :address
+  = f.input :city
+  = f.input :country_code, priority: %w(AR BR CL CO EC MX PE PR UY), include_blank: true
+  = f.input :starts_at, wrapper: :horizontal_multi_select, start_year: Time.current.to_date.year
+  = f.input :ends_at, wrapper: :horizontal_multi_select, start_year: Time.current.to_date.year
+
   .form-group
-    = f.label :name, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :name, class: "form-control"
-  .form-group
-    .col-sm-offset-2.col-sm-10
+    .col-sm-offset-3.col-sm-9
       = f.submit class: "btn btn-primary"
