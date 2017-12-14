@@ -115,6 +115,12 @@ RSpec.describe Tournament::BasesController, type: :controller do
         put :update, params: { id: base.to_param, tournament_base: new_attributes }, session: valid_session
         base.reload
         expect(base.name).to eq(new_attributes[:name])
+        expect(base.description).to eq(new_attributes[:description])
+        expect(base.address).to eq(new_attributes[:address])
+        expect(base.city).to eq(new_attributes[:city])
+        expect(base.country_code).to eq(new_attributes[:country_code])
+        expect(base.lat).to eq(new_attributes[:lat])
+        expect(base.lng).to eq(new_attributes[:lng])
         expect(base.owner).to eq(@user)
       end
 

@@ -54,6 +54,12 @@ gem "devise"
 gem "simple_form"
 gem "cocoon"
 
+# countries data
+gem "country_select", require: "country_select_without_sort_alphabetical"
+
+# Validate dates
+gem "validates_timeliness", "~> 4.0"
+
 # queue
 gem "delayed_job_active_record"
 

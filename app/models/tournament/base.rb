@@ -16,4 +16,25 @@ class Tournament::Base < ApplicationRecord
              inverse_of: :tournaments
 
   validates :name, presence: true
+  validates :description, presence: true
+  validates :starts_at, presence: true
+
+  validates :starts_at, timeliness: { type: :datetime }
+  validates :ends_at, timeliness: { on_or_after: :starts_at, type: :datetime }, if: -> { ends_at.present? }
+
+  def country_name
+    country.try(:name).to_s
+  end
+
+  def country_emoji
+    country.try(:emoji_flag).to_s
+  end
+
+  def country_name_with_emoji
+    [country_emoji, country_name].join(" ").strip
+  end
+  private
+    def country
+      ISO3166::Country.new(country_code)
+    end
 end

@@ -2,9 +2,10 @@ require "rails_helper"
 
 RSpec.describe "tournament/bases/edit", type: :view do
   before(:each) do
-    @tournament_base = assign(:tournament_base, Tournament::Base.create!(
-                                                  name: "MyString"
-    ))
+    @tournament_base = assign(
+      :tournament_base,
+      FactoryGirl.create(:tournament_basis)
+    )
   end
 
   it "renders the edit tournament_base form" do

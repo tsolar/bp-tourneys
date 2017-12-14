@@ -4,3 +4,7 @@ en:
       tournament/base:
         one: Tournament
         other: Tournaments
+    attributes:
+      tournament/base:
+        country_code: Country
+        country: Country

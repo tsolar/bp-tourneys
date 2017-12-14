@@ -15,6 +15,30 @@
       |  #{@tournament_basis.name}
 dl.dl-horizontal
   dt
+    = Tournament::Base.human_attribute_name(:description)
+  dd
+    = @tournament_basis.description
+  dt
+    = Tournament::Base.human_attribute_name(:address)
+  dd
+    = @tournament_basis.address
+  dt
+    = Tournament::Base.human_attribute_name(:city)
+  dd
+    = @tournament_basis.city
+  dt
+    = Tournament::Base.human_attribute_name(:country)
+  dd
+    = @tournament_basis.country_name_with_emoji
+  dt
+    = Tournament::Base.human_attribute_name(:starts_at)
+  dd
+    = @tournament_basis.starts_at.present? ? l(@tournament_basis.starts_at, format: :custom) : ""
+  dt
+    = Tournament::Base.human_attribute_name(:ends_at)
+  dd
+    = @tournament_basis.ends_at.present? ? l(@tournament_basis.ends_at, format: :custom) : ""
+  dt
     | #{Team::Base.model_name.human(count: @tournament_basis.teams.count)}
   dd
     - if @tournament_basis.teams.any?
