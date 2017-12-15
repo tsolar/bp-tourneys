@@ -1,7 +1,7 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :team_basis, class: "Team::Base" do
     sequence(:name) { |n| "Team #{n}" }
-    owner { User.last || FactoryGirl.create(:user) }
+    owner { User.last || FactoryBot.create(:user) }
 
     factory :team_basis_invalid do
       name nil

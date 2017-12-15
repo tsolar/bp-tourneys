@@ -5,7 +5,7 @@ RSpec.describe Tournament::Team, type: :model do
     it { should validate_presence_of(:team) }
     it { should validate_presence_of(:tournament) }
     it {
-      FactoryGirl.create(:tournament_team)
+      FactoryBot.create(:tournament_team)
       should validate_uniqueness_of(:team_id).scoped_to(:tournament_id)
     }
 
@@ -13,18 +13,18 @@ RSpec.describe Tournament::Team, type: :model do
 
     context "when a player already is in a tournament team" do
       it "validates the player cannot be in another team in the same tournament" do
-        tournament = FactoryGirl.create :tournament_basis
-        tournament_team = FactoryGirl.create(
+        tournament = FactoryBot.create :tournament_basis
+        tournament_team = FactoryBot.create(
           :tournament_team,
           tournament: tournament
         )
         players_count = 3
-        players = FactoryGirl.create_list(:player_basis, players_count)
+        players = FactoryBot.create_list(:player_basis, players_count)
         expect {
           tournament_team.players << players
         }.to change(Tournament::TeamPlayer, :count).by(players_count)
 
-        other_tournament_team = FactoryGirl.create(:tournament_team, tournament: tournament)
+        other_tournament_team = FactoryBot.create(:tournament_team, tournament: tournament)
         expect(other_tournament_team.tournament).to eq tournament_team.tournament
         expect {
           other_tournament_team.players << players.first
@@ -67,11 +67,11 @@ RSpec.describe Tournament::Team, type: :model do
   end
 
   describe "Deletion" do
-    let!(:tournament_team) { FactoryGirl.create(:tournament_team) }
+    let!(:tournament_team) { FactoryBot.create(:tournament_team) }
     context "when tournament team has players" do
       it "should delete the tournament team and tournament team players" do
         expect(tournament_team).to be_persisted
-        tournament_team_player = FactoryGirl.create(
+        tournament_team_player = FactoryBot.create(
           :tournament_team_player,
           tournament_team: tournament_team
         )

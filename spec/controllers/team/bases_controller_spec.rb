@@ -24,11 +24,11 @@ RSpec.describe Team::BasesController, type: :controller do
   # Team::Base. As you add validations to Team::Base, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    FactoryGirl.attributes_for(:team_basis)
+    FactoryBot.attributes_for(:team_basis)
   }
 
   let(:invalid_attributes) {
-    FactoryGirl.attributes_for(:team_basis_invalid)
+    FactoryBot.attributes_for(:team_basis_invalid)
   }
 
   # This should return the minimal set of values that should be in the session
@@ -103,7 +103,7 @@ RSpec.describe Team::BasesController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        FactoryGirl.attributes_for(:team_basis)
+        FactoryBot.attributes_for(:team_basis)
       }
 
       it "updates the requested team_base" do

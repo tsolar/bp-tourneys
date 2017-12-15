@@ -21,17 +21,17 @@ require "rails_helper"
 RSpec.describe Tournament::TeamsController, type: :controller do
   login_user
 
-  let(:tournament) { FactoryGirl.create(:tournament_basis) }
+  let(:tournament) { FactoryBot.create(:tournament_basis) }
 
   # This should return the minimal set of attributes required to create a valid
   # Tournament::Team. As you add validations to Tournament::Team, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    FactoryGirl.attributes_for(:tournament_team, tournament: tournament)
+    FactoryBot.attributes_for(:tournament_team, tournament: tournament)
   }
 
   let(:invalid_attributes) {
-    FactoryGirl.attributes_for(:tournament_team_invalid, tournament: tournament)
+    FactoryBot.attributes_for(:tournament_team_invalid, tournament: tournament)
   }
 
   # This should return the minimal set of values that should be in the session
@@ -64,7 +64,7 @@ RSpec.describe Tournament::TeamsController, type: :controller do
 
   describe "GET #new" do
     it "assigns a new tournament_team as @tournament_team" do
-      tournament = FactoryGirl.create(:tournament_basis)
+      tournament = FactoryBot.create(:tournament_basis)
       get :new, params: { tournament_id: tournament.to_param }, session: valid_session
       expect(assigns(:tournament_team)).to be_a_new(Tournament::Team)
       expect(assigns(:tournament_team).team.owner).to eq @user
@@ -116,7 +116,7 @@ RSpec.describe Tournament::TeamsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        FactoryGirl.attributes_for(:tournament_team)
+        FactoryBot.attributes_for(:tournament_team)
       }
 
       it "updates the requested tournament_team and keeps the owner" do

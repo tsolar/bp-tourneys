@@ -10,7 +10,7 @@ RSpec.describe "Team::Bases", type: :request do
 
   describe "GET /team_bases/:id" do
     context "when team exists" do
-      let(:team) { FactoryGirl.create(:team_basis) }
+      let(:team) { FactoryBot.create(:team_basis) }
 
       context "when user is logged in" do
         it "shows team" do

@@ -1,7 +1,7 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :tournament_basis, class: "Tournament::Base" do
     sequence(:name) { |n| "Tournament #{n}" }
-    owner { User.last || FactoryGirl.create(:user) }
+    owner { User.last || FactoryBot.create(:user) }
     description { FFaker::HipsterIpsum.paragraph }
     address { FFaker::Address.street_address }
     city { FFaker::Address.city }

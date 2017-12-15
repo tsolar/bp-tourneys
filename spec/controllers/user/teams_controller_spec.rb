@@ -6,7 +6,7 @@ RSpec.describe User::TeamsController, type: :controller do
     context "when user is logged in" do
       login_user
       before(:each) do
-        FactoryGirl.create_list(:team_basis, 3, owner: @user)
+        FactoryBot.create_list(:team_basis, 3, owner: @user)
       end
       it "returns http success" do
         get :index

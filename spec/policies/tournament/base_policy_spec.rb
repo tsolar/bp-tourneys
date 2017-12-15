@@ -2,14 +2,14 @@ require "rails_helper"
 
 RSpec.describe Tournament::BasePolicy do
 
-  let(:user) { FactoryGirl.create(:user) }
-  let(:tournament) { FactoryGirl.create(:tournament_basis, owner: user) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:tournament) { FactoryBot.create(:tournament_basis, owner: user) }
 
   subject { described_class.new(user, tournament) }
 
   context "user is not logged in" do
     let(:user) { nil }
-    let(:tournament) { FactoryGirl.create(:tournament_basis) }
+    let(:tournament) { FactoryBot.create(:tournament_basis) }
 
     it { is_expected.to permit_actions([:index, :show]) }
     it { is_expected.to forbid_action(:destroy) }
@@ -26,9 +26,9 @@ RSpec.describe Tournament::BasePolicy do
     end
 
     context "user is not the tournament owner" do
-      let(:other_user) { FactoryGirl.create(:user) }
+      let(:other_user) { FactoryBot.create(:user) }
       let(:tournament) {
-        FactoryGirl.create(:tournament_basis, owner: other_user)
+        FactoryBot.create(:tournament_basis, owner: other_user)
       }
 
       it { is_expected.to permit_actions([:index, :show]) }
@@ -50,7 +50,7 @@ RSpec.describe Tournament::BasePolicy do
 
   # permissions :show? do
   #   it "grants access" do
-  #     tournament = FactoryGirl.create(:tournament_basis)
+  #     tournament = FactoryBot.create(:tournament_basis)
   #     expect(subject).to permit(user, tournament)
   #   end
   # end

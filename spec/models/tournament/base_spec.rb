@@ -6,7 +6,7 @@ RSpec.describe Tournament::Base, type: :model do
     it { should validate_presence_of(:description) }
     it { should validate_presence_of(:starts_at) }
     it {
-      expect(FactoryGirl.build(:tournament_basis, starts_at: nil))
+      expect(FactoryBot.build(:tournament_basis, starts_at: nil))
         .to_not validate_presence_of(:ends_at)
     }
 
@@ -14,7 +14,7 @@ RSpec.describe Tournament::Base, type: :model do
       let(:starts_at) { Time.current }
       let(:ends_at) { Time.current + 1.week }
       let(:tournament) {
-        FactoryGirl.build(
+        FactoryBot.build(
           :tournament_basis,
           starts_at: starts_at,
           ends_at: ends_at
@@ -63,13 +63,13 @@ RSpec.describe Tournament::Base, type: :model do
 
   describe "Create" do
     it "should create a valid Tournament" do
-      tournament = FactoryGirl.create(:tournament_basis)
+      tournament = FactoryBot.create(:tournament_basis)
       expect(tournament).to be_valid
       expect(tournament).to be_persisted
     end
 
     it "should not create an invalid Tournament" do
-      tournament = FactoryGirl.build(:tournament_basis_invalid)
+      tournament = FactoryBot.build(:tournament_basis_invalid)
       expect(tournament).not_to be_valid
       expect(tournament.save).to be false
     end
@@ -78,7 +78,7 @@ RSpec.describe Tournament::Base, type: :model do
   describe "#country_name" do
     let(:country_code) { "US" }
     let(:tournament) {
-      FactoryGirl.create(:tournament_basis, country_code: country_code)
+      FactoryBot.create(:tournament_basis, country_code: country_code)
     }
 
     context "when country_code is present" do
@@ -109,7 +109,7 @@ RSpec.describe Tournament::Base, type: :model do
   describe "#country_emoji" do
     let(:country_code) { "US" }
     let(:tournament) {
-      FactoryGirl.create(:tournament_basis, country_code: country_code)
+      FactoryBot.create(:tournament_basis, country_code: country_code)
     }
 
     context "when country_code is present" do
@@ -140,7 +140,7 @@ RSpec.describe Tournament::Base, type: :model do
   describe "#country_name_with_emoji" do
     let(:country_code) { "US" }
     let(:tournament) {
-      FactoryGirl.create(:tournament_basis, country_code: country_code)
+      FactoryBot.create(:tournament_basis, country_code: country_code)
     }
 
     context "when country_code is present" do

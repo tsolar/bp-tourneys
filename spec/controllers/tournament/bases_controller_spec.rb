@@ -25,11 +25,11 @@ RSpec.describe Tournament::BasesController, type: :controller do
   # Tournament::Base. As you add validations to Tournament::Base, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    FactoryGirl.attributes_for(:tournament_basis)
+    FactoryBot.attributes_for(:tournament_basis)
   }
 
   let(:invalid_attributes) {
-    FactoryGirl.attributes_for(:tournament_basis_invalid)
+    FactoryBot.attributes_for(:tournament_basis_invalid)
   }
 
   # This should return the minimal set of values that should be in the session
@@ -107,7 +107,7 @@ RSpec.describe Tournament::BasesController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        FactoryGirl.attributes_for(:tournament_basis)
+        FactoryBot.attributes_for(:tournament_basis)
       }
 
       it "updates the requested tournament_base" do
