@@ -19,6 +19,7 @@ require "rails_helper"
 # that an instance is receiving a specific message.
 
 RSpec.describe Team::BasesController, type: :controller do
+  login_user
 
   # This should return the minimal set of attributes required to create a valid
   # Team::Base. As you add validations to Team::Base, be sure to
@@ -56,6 +57,7 @@ RSpec.describe Team::BasesController, type: :controller do
     it "assigns a new team_base as @team_base" do
       get :new, params: {}, session: valid_session
       expect(assigns(:team_basis)).to be_a_new(Team::Base)
+      expect(assigns(:team_basis).owner).to eq @user
     end
   end
 
@@ -73,12 +75,14 @@ RSpec.describe Team::BasesController, type: :controller do
         expect {
           post :create, params: { team_base: valid_attributes }, session: valid_session
         }.to change(Team::Base, :count).by(1)
+        expect(Team::Base.last.owner).to eq @user
       end
 
       it "assigns a newly created team_base as @team_base" do
         post :create, params: { team_base: valid_attributes }, session: valid_session
         expect(assigns(:team_basis)).to be_a(Team::Base)
         expect(assigns(:team_basis)).to be_persisted
+        expect(assigns(:team_basis).owner).to eq @user
       end
 
       it "redirects to the created team_base" do
@@ -111,6 +115,7 @@ RSpec.describe Team::BasesController, type: :controller do
         put :update, params: { id: base.to_param, team_base: new_attributes }, session: valid_session
         base.reload
         expect(base.name).to eq new_attributes[:name]
+        expect(base.owner).to eq(@user)
       end
 
       it "assigns the requested team_base as @team_base" do

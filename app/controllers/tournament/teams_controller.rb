@@ -3,10 +3,12 @@ class Tournament::TeamsController < ApplicationController
   before_action :set_tournament, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   before_action :set_team, only: [:show, :edit, :update, :destroy]
   before_action :set_tournament_team, only: [:show, :edit, :update, :destroy]
+  after_action :verify_authorized
 
   # GET /tournament/teams
   # GET /tournament/teams.json
   def index
+    authorize Tournament::Team
     @tournament_teams = Tournament::Team.where(
       tournament: @tournament
     )
@@ -21,6 +23,7 @@ class Tournament::TeamsController < ApplicationController
   def new
     @tournament_team = @tournament.tournament_teams.new
     @tournament_team.build_team(owner: current_user)
+    authorize @tournament_team
   end
 
   # GET /tournament/teams/1/edit
@@ -31,6 +34,7 @@ class Tournament::TeamsController < ApplicationController
   # POST /tournament/teams.json
   def create
     @tournament_team = @tournament.tournament_teams.new(tournament_team_params)
+    authorize @tournament_team
 
     respond_to do |format|
       if @tournament_team.save
@@ -94,6 +98,7 @@ class Tournament::TeamsController < ApplicationController
         tournament: @tournament,
         team: @team
       )
+      authorize @tournament_team if @tournament_team.present?
       render file: "public/404", status: 404, layout: false unless @tournament_team
     end
 
@@ -133,7 +138,6 @@ class Tournament::TeamsController < ApplicationController
         ],
       )
       _params[:team_attributes][:owner_id] = current_user.id
-      # debugger
       _params
     end
 end

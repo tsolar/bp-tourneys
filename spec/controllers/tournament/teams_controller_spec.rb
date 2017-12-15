@@ -72,10 +72,29 @@ RSpec.describe Tournament::TeamsController, type: :controller do
   end
 
   describe "GET #edit" do
-    it "assigns the requested tournament_team as @tournament_team" do
-      team = Tournament::Team.create! valid_attributes
-      get :edit, params: { tournament_id: tournament.to_param, team_id: team.team.to_param }, session: valid_session
-      expect(assigns(:tournament_team)).to eq(team)
+    context "current user is owner of the team" do
+      it "assigns the requested tournament_team as @tournament_team" do
+        team = Tournament::Team.create! valid_attributes
+        get :edit, params: { tournament_id: tournament.to_param, team_id: team.team.to_param }, session: valid_session
+        expect(assigns(:tournament_team)).to eq(team)
+        expect(assigns(:tournament_team).team.owner).to eq @user
+      end
+    end
+
+    context "current user is not owner of the team" do
+      it "redirects to referrer with alert" do
+        other_user = FactoryBot.create(:user)
+        team_basis = FactoryBot.create(:team_basis, owner: other_user)
+        team = Tournament::Team.create! valid_attributes.merge(team: team_basis)
+        expect(team.team.owner).to eq other_user
+        expect(team.team.owner).not_to eq @user
+        get :edit, params: { tournament_id: tournament.to_param, team_id: team.team.to_param }, session: valid_session
+        expect(assigns(:tournament_team)).to eq(team)
+        expect(assigns(:tournament_team).team.owner).not_to eq @user
+        expect(assigns(:tournament_team).team.owner).to eq other_user
+        expect(response).to redirect_to root_path
+        expect(flash[:alert]).to include(I18n.t("unauthorized"))
+      end
     end
   end
 
@@ -114,69 +133,109 @@ RSpec.describe Tournament::TeamsController, type: :controller do
   end
 
   describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        FactoryBot.attributes_for(:tournament_team)
-      }
+    context "when current user is owner of the team" do
+      context "with valid params" do
+        let(:new_attributes) {
+          FactoryBot.attributes_for(:tournament_team)
+        }
 
-      it "updates the requested tournament_team and keeps the owner" do
-        team = Tournament::Team.create! valid_attributes
-        team_owner = team.team.owner
-        expect(team_owner).to be_present
+        it "updates the requested tournament_team and keeps the owner" do
+          team = Tournament::Team.create! valid_attributes
+          team_owner = team.team.owner
+          expect(team_owner).to be_present
 
-        # set team id to just update team name
-        new_attributes[:team_attributes][:id] = team.team.to_param
-        put :update, params: { tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: new_attributes }, session: valid_session
-        team.reload
-        expect(team.team.name).to eq new_attributes[:team_attributes][:name]
-        expect(team.team.owner).to eq team_owner
+          # set team id to just update team name
+          new_attributes[:team_attributes][:id] = team.team.to_param
+          put :update, params: { tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: new_attributes }, session: valid_session
+          team.reload
+          expect(team.team.name).to eq new_attributes[:team_attributes][:name]
+          expect(team.team.owner).to eq team_owner
+        end
+
+        it "assigns the requested tournament_team as @tournament_team" do
+          team = Tournament::Team.create! valid_attributes
+          put :update, params: { tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: valid_attributes }, session: valid_session
+          expect(assigns(:tournament_team)).to eq(team)
+        end
+
+        it "redirects to the tournament_team" do
+          team = Tournament::Team.create! valid_attributes
+          # use the id of same team, to not create a new one
+          valid_attributes[:team_attributes][:id] = team.team.to_param
+          put :update, params: { tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: valid_attributes }, session: valid_session
+          expect(response).to redirect_to(tournament_team_path(team_id: team.team.to_param))
+        end
       end
 
-      it "assigns the requested tournament_team as @tournament_team" do
-        team = Tournament::Team.create! valid_attributes
-        put :update, params: { tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: valid_attributes }, session: valid_session
-        expect(assigns(:tournament_team)).to eq(team)
-      end
+      context "with invalid params" do
+        it "assigns the tournament_team as @tournament_team" do
+          team = Tournament::Team.create! valid_attributes
+          put :update, params: { tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: invalid_attributes }, session: valid_session
+          expect(assigns(:tournament_team)).to eq(team)
+        end
 
-      it "redirects to the tournament_team" do
-        team = Tournament::Team.create! valid_attributes
-        # use the id of same team, to not create a new one
-        valid_attributes[:team_attributes][:id] = team.team.to_param
-        put :update, params: { tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(tournament_team_path(team_id: team.team.to_param))
+        it "re-renders the 'edit' template" do
+          team = Tournament::Team.create! valid_attributes
+          invalid_attributes[:team_attributes][:id] = team.team.to_param
+          put :update, params: { tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: invalid_attributes }, session: valid_session
+          expect(response).to render_template("edit")
+        end
       end
     end
 
-    context "with invalid params" do
-      it "assigns the tournament_team as @tournament_team" do
-        team = Tournament::Team.create! valid_attributes
-        put :update, params: { tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: invalid_attributes }, session: valid_session
+    context "when current user is not the owner of the team" do
+      it "redirects to referrer with alert" do
+        other_user = FactoryBot.create(:user)
+        team_basis = FactoryBot.create(:team_basis, owner: other_user)
+        team = Tournament::Team.create! valid_attributes.merge(team: team_basis)
+        new_attributes = FactoryBot.attributes_for(:tournament_team, team_attributes: team_basis.attributes)
+        expect(team.team.owner).to eq other_user
+        expect(team.team.owner).not_to eq @user
+        put :update, params: { tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: new_attributes }, session: valid_session
         expect(assigns(:tournament_team)).to eq(team)
-      end
-
-      it "re-renders the 'edit' template" do
-        team = Tournament::Team.create! valid_attributes
-        invalid_attributes[:team_attributes][:id] = team.team.to_param
-        put :update, params: { tournament_id: tournament.to_param, team_id: team.team.to_param, tournament_team: invalid_attributes }, session: valid_session
-        expect(response).to render_template("edit")
+        expect(assigns(:tournament_team).team.owner).not_to eq @user
+        expect(assigns(:tournament_team).team.owner).to eq other_user
+        expect(response).to redirect_to root_path
+        expect(flash[:alert]).to include(I18n.t("unauthorized"))
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested tournament_team" do
-      team = Tournament::Team.create! valid_attributes
-      expect {
+    context "when current user is the owner of the team" do
+      it "destroys the requested tournament_team" do
+        team = Tournament::Team.create! valid_attributes
+        expect {
+          delete :destroy, params: { tournament_id: tournament.to_param, team_id: team.team.to_param }, session: valid_session
+        }.to change(Tournament::Team, :count).by(-1)
+          .and change(Player::Base, :count).by(0)
+          .and change(Team::Base, :count).by(0)
+      end
+
+      it "redirects to the tournament_teams list" do
+        team = Tournament::Team.create! valid_attributes
         delete :destroy, params: { tournament_id: tournament.to_param, team_id: team.team.to_param }, session: valid_session
-      }.to change(Tournament::Team, :count).by(-1).and \
-        change(Player::Base, :count).by(0).and \
-          change(Team::Base, :count).by(0)
+        expect(response).to redirect_to(tournament_teams_url)
+      end
     end
 
-    it "redirects to the tournament_teams list" do
-      team = Tournament::Team.create! valid_attributes
-      delete :destroy, params: { tournament_id: tournament.to_param, team_id: team.team.to_param }, session: valid_session
-      expect(response).to redirect_to(tournament_teams_url)
+    context "when current user is not the owner of the team" do
+      it "redirects to referrer with alert" do
+        other_user = FactoryBot.create(:user)
+        team_basis = FactoryBot.create(:team_basis, owner: other_user)
+        team = Tournament::Team.create! valid_attributes.merge(team: team_basis)
+        expect(team.team.owner).to eq other_user
+        expect(team.team.owner).not_to eq @user
+        expect {
+          delete :destroy, params: { tournament_id: tournament.to_param, team_id: team.team.to_param }, session: valid_session
+        }.to change(Tournament::Team, :count).by(0)
+
+        expect(assigns(:tournament_team)).to eq(team)
+        expect(assigns(:tournament_team).team.owner).not_to eq @user
+        expect(assigns(:tournament_team).team.owner).to eq other_user
+        expect(response).to redirect_to root_path
+        expect(flash[:alert]).to include(I18n.t("unauthorized"))
+      end
     end
   end
 
