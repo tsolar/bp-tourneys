@@ -4,7 +4,7 @@ RSpec.describe "tournament/bases/show", type: :view do
   before(:each) do
     @tournament_base = assign(
       :tournament_base,
-      FactoryGirl.create(:tournament_basis)
+      FactoryBot.create(:tournament_basis)
     )
   end
 

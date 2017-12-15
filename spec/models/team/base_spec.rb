@@ -24,13 +24,13 @@ RSpec.describe Team::Base, type: :model do
 
   describe "Create" do
     it "should create a valid Team" do
-      team = FactoryGirl.create(:team_basis)
+      team = FactoryBot.create(:team_basis)
       expect(team).to be_valid
       expect(team).to be_persisted
     end
 
     it "should not create an invalid Team" do
-      team = FactoryGirl.build(:team_basis_invalid)
+      team = FactoryBot.build(:team_basis_invalid)
       expect(team).not_to be_valid
       expect(team.save).to be false
     end

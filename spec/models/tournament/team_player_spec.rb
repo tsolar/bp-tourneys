@@ -8,22 +8,22 @@ RSpec.describe Tournament::TeamPlayer, type: :model do
 
     # Shoulda matchers is not working for this
     # it {
-    #   FactoryGirl.create(:tournament_team_player)
+    #   FactoryBot.create(:tournament_team_player)
     #   should validate_uniqueness_of(:player_id)
     #     .scoped_to(:tournament_id)
     # }
 
     it "should validate uniqueness of player in tournament" do
-      tt1 = FactoryGirl.create(:tournament_team)
-      tt2 = FactoryGirl.create(:tournament_team, tournament: tt1.tournament)
+      tt1 = FactoryBot.create(:tournament_team)
+      tt2 = FactoryBot.create(:tournament_team, tournament: tt1.tournament)
       expect(tt1.tournament).to eq tt2.tournament
-      tt3 = FactoryGirl.create(:tournament_team)
+      tt3 = FactoryBot.create(:tournament_team)
       expect(tt1.tournament).not_to eq tt3.tournament
 
-      ttp1 = FactoryGirl.create(:tournament_team_player, tournament_team: tt1)
+      ttp1 = FactoryBot.create(:tournament_team_player, tournament_team: tt1)
       expect(ttp1).to be_valid
       expect(ttp1).to be_persisted
-      ttp2 = FactoryGirl.build(
+      ttp2 = FactoryBot.build(
         :tournament_team_player,
         player: ttp1.player,
         tournament_team: tt2
@@ -31,7 +31,7 @@ RSpec.describe Tournament::TeamPlayer, type: :model do
       expect(ttp2).not_to be_valid
       expect(ttp2.save).to be false
 
-      ttp3 = FactoryGirl.build(
+      ttp3 = FactoryBot.build(
         :tournament_team_player,
         player: ttp1.player,
         tournament_team: tt3
@@ -41,7 +41,7 @@ RSpec.describe Tournament::TeamPlayer, type: :model do
     end
 
     it "should validate tournament is the same of tournament team" do
-      ttp = FactoryGirl.create(:tournament_team_player)
+      ttp = FactoryBot.create(:tournament_team_player)
       expect(ttp.tournament).to eq ttp.tournament_team.tournament
     end
   end

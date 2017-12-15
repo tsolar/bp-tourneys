@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Tournament::Teams", type: :request do
   describe "listing tournament teams" do
     context "when tournament exists" do
-      let(:tournament) { FactoryGirl.create(:tournament_basis) }
+      let(:tournament) { FactoryBot.create(:tournament_basis) }
 
       it "lists tournament teams" do
         get tournament_teams_path(tournament_id: tournament.to_param)
@@ -22,11 +22,11 @@ RSpec.describe "Tournament::Teams", type: :request do
 
   describe "GET /tournaments/:id/teams/new" do
     context "when tournament team exists" do
-      let(:tournament) { FactoryGirl.create(:tournament_basis) }
+      let(:tournament) { FactoryBot.create(:tournament_basis) }
 
       context "when user is logged in" do
         it "should show form" do
-          user = FactoryGirl.create(:user)
+          user = FactoryBot.create(:user)
           user.confirm
           sign_in user
 

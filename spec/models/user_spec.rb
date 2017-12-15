@@ -3,24 +3,24 @@ require "rails_helper"
 RSpec.describe User, type: :model do
   describe "Create" do
     it "should create a valid user" do
-      user = FactoryGirl.build(:user)
+      user = FactoryBot.build(:user)
       expect(user).to be_valid
       expect(user.save).to be true
     end
 
     context "when it is created with teams_attributes" do
       it "should create a valid user with teams" do
-        teams_attributes = FactoryGirl.attributes_for_list(:team_basis, 3)
-        user = FactoryGirl.build(:user, teams_attributes: teams_attributes)
+        teams_attributes = FactoryBot.attributes_for_list(:team_basis, 3)
+        user = FactoryBot.build(:user, teams_attributes: teams_attributes)
         expect(user.save).to be true
         expect(user.teams.count).to eq 3
       end
 
       it "should create valid user with 2 of 3 teams (a team has no name)" do
-        teams_attributes = FactoryGirl.attributes_for_list(:team_basis, 2)
-        teams_attributes << FactoryGirl.attributes_for(:team_basis, name: "")
+        teams_attributes = FactoryBot.attributes_for_list(:team_basis, 2)
+        teams_attributes << FactoryBot.attributes_for(:team_basis, name: "")
         expect(teams_attributes.count).to eq 3
-        user = FactoryGirl.build(:user, teams_attributes: teams_attributes)
+        user = FactoryBot.build(:user, teams_attributes: teams_attributes)
         expect(user.save).to be true
         expect(user.teams.count).to eq 2
       end
@@ -38,7 +38,7 @@ RSpec.describe User, type: :model do
 
   describe "#username" do
     let(:email) { "email@example.com" }
-    let(:user) { FactoryGirl.create(:user, email: email) }
+    let(:user) { FactoryBot.create(:user, email: email) }
 
     it "should return user email" do
       expect(user.username).to eq email

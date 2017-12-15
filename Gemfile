@@ -80,7 +80,7 @@ group :development, :test do
   # bring back 'assigns'
   gem "rails-controller-testing"
 
-  gem "factory_girl_rails"
+  gem "factory_bot_rails"
   gem "ffaker"
 
   # lets generate some layouts with bootstrap...

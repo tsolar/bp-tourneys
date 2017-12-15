@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "team/bases/index", type: :view do
   before(:each) do
-    assign(:team_bases, FactoryGirl.create_list(:team_basis, 2))
+    assign(:team_bases, FactoryBot.create_list(:team_basis, 2))
   end
 
   it "renders a list of team/bases" do
