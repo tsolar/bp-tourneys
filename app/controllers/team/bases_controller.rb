@@ -1,9 +1,12 @@
 class Team::BasesController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_team_basis, only: [:show, :edit, :update, :destroy]
+  after_action :verify_authorized
 
   # GET /team/bases
   # GET /team/bases.json
   def index
+    authorize Team::Base
     @team_bases = Team::Base.all
   end
 
@@ -14,7 +17,8 @@ class Team::BasesController < ApplicationController
 
   # GET /team/bases/new
   def new
-    @team_basis = Team::Base.new
+    @team_basis = Team::Base.new(owner: current_user)
+    authorize @team_basis
   end
 
   # GET /team/bases/1/edit
@@ -25,6 +29,8 @@ class Team::BasesController < ApplicationController
   # POST /team/bases.json
   def create
     @team_basis = Team::Base.new(team_basis_params)
+    @team_basis.owner = current_user
+    authorize @team_basis
 
     respond_to do |format|
       if @team_basis.save
@@ -65,6 +71,7 @@ class Team::BasesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_team_basis
       @team_basis = Team::Base.find_by(id: params[:id])
+      authorize @team_basis if @team_basis.present?
       render file: "public/404", status: 404, layout: false unless @team_basis
     end
 

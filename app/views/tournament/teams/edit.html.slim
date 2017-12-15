@@ -2,7 +2,7 @@
   = link_to tournament_teams_path, class: 'btn btn-default' do
     span.glyphicon.glyphicon-list-alt
     |  Back
-  = link_to @tournament_team, class: 'btn btn-primary' do
+  = link_to tournament_team_path(tournament_id: @tournament_team.tournament_id, team_id: @tournament_team.team_id), class: 'btn btn-primary' do
     span.glyphicon.glyphicon-info-sign
     |  Show
   h1
