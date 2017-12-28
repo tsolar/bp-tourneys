@@ -133,7 +133,8 @@ class Tournament::TeamsController < ApplicationController
           :_destroy,
           player_attributes: [
             :id,
-            :name
+            :name,
+            :nickname
           ]
         ],
       )

@@ -4,3 +4,6 @@ en:
       player/base:
         one: Player
         other: Players
+    attributes:
+      player/base:
+        id: Player

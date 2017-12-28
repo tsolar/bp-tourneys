@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "player/bases/edit", type: :view do
   before(:each) do
-    @player_basis = assign(:player_basis, Player::Base.create!())
+    @player_basis = assign(:player_basis, FactoryBot.create(:player_basis))
   end
 
   it "renders the edit player_basis form" do

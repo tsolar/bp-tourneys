@@ -18,11 +18,12 @@
   = f.simple_fields_for :team do |team_player|
     = render 'team_fields', f: team_player
 
-  = f.simple_fields_for :team_players do |team_player|
-     = render 'team_player_fields', f: team_player
-  .links
-     = link_to_add_association 'add team player', f, :team_players, class: 'btn btn-default'
+  .col-sm-offset-3.col-sm-9
+    = f.simple_fields_for :team_players do |team_player|
+      = render 'team_player_fields', f: team_player
+    .links
+      = link_to_add_association 'add team player', f, :team_players, class: 'btn btn-default'
 
   .form-group
-    .col-sm-offset-2.col-sm-10
+    .col-sm-offset-3.col-sm-9
       = f.submit class: "btn btn-primary"

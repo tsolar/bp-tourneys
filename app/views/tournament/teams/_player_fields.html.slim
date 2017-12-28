@@ -1,6 +1,7 @@
-.nested-fields.col-xs-12.player-fields
-  .col-sm-6
+.nested-fields.player-fields
+  .col-xs-12
     / let's include only the current id, and the other players without teams on this tournament
     - player_ids_in_teams_except_self = Tournament::TeamPlayer.where.not(player_id: f.object.id).where(tournament: @tournament_team.tournament).map(&:player_id)
-    = f.input :id, collection: Player::Base.where.not(id: player_ids_in_teams_except_self), input_html: {class: 'player-id-select'}
-    = f.input :name, input_html: {class: 'player-'}
+    = f.input :id, collection: Player::Base.where.not(id: player_ids_in_teams_except_self).order(:name, :id), input_html: { class: 'player-id-select' }
+    = f.input :name, input_html: { class: 'player-' }
+    = f.input :nickname, input_html: { class: 'player-' }
